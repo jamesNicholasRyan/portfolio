@@ -1,13 +1,13 @@
 import React from 'react'
 import p5 from 'p5'
 
-class Background extends React.Component {
+class Ocean extends React.Component {
   constructor(props) {
     super(props)
     this.myRef = React.createRef()
   }
 
-  Background = (p) => {
+  Ocean = (p) => {
 
     // Bubble[] bubbles = new Bubble[10]
     const canvasHeight = 2000
@@ -21,8 +21,8 @@ class Background extends React.Component {
 
     p.setup = () => {
       canvas = p.createCanvas(p.windowWidth, canvasHeight)
-      canvas.position(0,0)
-      canvas.style('z-index', '-2')
+      canvas.position(0,canvasHeight)
+      canvas.style('z-index', '-1')
       for (let i = 0; i < bubbleCount; i++) {
         const bubble = new Bubble(p.random(p.windowWidth), p.random(canvasHeight), p.random(1,45), randomSpeed(bubbleSpeed), randomSpeed(bubbleSpeed))
         bubbles.push(bubble)
@@ -73,10 +73,8 @@ class Background extends React.Component {
 
       dusts.forEach((dust) => {
         if (dust.isDead === true) {
-          for (let i = 0; i < 2; i++) {
-            const newDust = new Dust(p.random(p.windowWidth), p.random(canvasHeight), p.random(4,8), randomSpeed(dustSpeed), randomSpeed(dustSpeed))
-            dusts.push(newDust)
-          }
+          const newDust = new Dust(p.random(p.windowWidth), p.random(canvasHeight), p.random(4,8), randomSpeed(dustSpeed), randomSpeed(dustSpeed))
+          dusts.push(newDust)
           const index = dusts.indexOf(dust)
           dusts.splice(index, 1)
         }
@@ -307,21 +305,6 @@ class Background extends React.Component {
     }
     // ---------------------------------------------------------------------------------------- //
 
-    class Density {
-      constructor(x, y, c) {
-        this.x = x
-        this.y = y
-        this.c = c
-        this.h = canvasHeight/5
-        this.w = p.windowWidth
-      }
-
-      display() {
-        p.stroke(0)
-        p.fill(255,100,100,100)
-        p.rect(this.x, this.y, this.w, this.h)
-      }
-    }
 
     volcanoes(p.windowWidth/5, canvasHeight-100)
     volcanoes(p.windowWidth*0.8, canvasHeight-100)
@@ -329,7 +312,7 @@ class Background extends React.Component {
 
 // ______________________________________________________________________________________________________ //
   componentDidMount() {
-    this.myP5 = new p5(this.Background, this.myRef.current)
+    this.myP5 = new p5(this.Ocean, this.myRef.current)
   }
 
   render() {
@@ -338,5 +321,6 @@ class Background extends React.Component {
   }
 }
 
-
-export default Background
+export {
+  Ocean
+}
