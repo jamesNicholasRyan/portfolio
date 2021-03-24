@@ -7,7 +7,12 @@ function App() {
   return <div className="App">
     <div>HELLO WORLD</div>
       <Background />
-      <div>Hello my name is james</div>
+      <div class='container'>Hello my name is james
+        <div class='box'>Example text here...</div>
+        <div class='box'>Example text here...</div>
+        <div class='box'>Example text here...</div>
+        <div class='box'>Example text here...</div>
+      </div>
     </div>
 }
 
