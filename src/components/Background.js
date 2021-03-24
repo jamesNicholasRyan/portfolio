@@ -12,49 +12,57 @@ class Background extends React.Component {
     // Bubble[] bubbles = new Bubble[10]
     const canvasHeight = 2000
     const bubbleCount = 30
-    let bubbles= []
+    const dustCount = 50
+    let bubbles = []
+    let dusts = []
     var canvas
+    const dustSpeed = [-0.3, 0.3]
+    const bubbleSpeed = [-10, 10]
 
     p.setup = () => {
       canvas = p.createCanvas(p.windowWidth, canvasHeight)
       canvas.position(0,0)
       canvas.style('z-index', '-2')
       for (let i = 0; i < bubbleCount; i++) {
-        const bubble = new Bubble(p.random(p.windowWidth), p.random(canvasHeight), p.random(1,5))
+        const bubble = new Bubble(p.random(p.windowWidth), p.random(canvasHeight), p.random(1,45), randomSpeed(bubbleSpeed), randomSpeed(bubbleSpeed))
         bubbles.push(bubble)
       }
+      for (let i = 0; i < dustCount; i++) {
+        const dust = new Dust(p.random(p.windowWidth), p.random(canvasHeight), p.random(4,7), randomSpeed(dustSpeed), randomSpeed(dustSpeed))
+        dusts.push(dust)
+      }
+
     }
 
     p.draw = () => {
       const mouseVector = p.createVector(p.mouseX, p.mouseY)
-      // p.background(18,126,190)
       const color1 = p.color(18,126,190)
-      const color2 = p.color(0)
+      const color2 = p.color(0, 10, 20)
       setGradient(0,0,p.width,p.height,color1,color2)
       bubbles.forEach((bubble) => {
         bubble.display()
         bubble.move()
         bubble.drag()
         bubble.checkSides()
-        // bubble.separate(bubbles)
-
-        // bubbles.forEach((bubble2) => {
-        //   if (bubble !== bubble2) {
-        //     bubble.checkCollision(bubble2)
-        //   }
-        // })
+        bubble.checkDeath()
+        bubble.boyancy()
 
         const dist = bubble.location.dist(mouseVector)
         if ((dist < 100)) {
           bubble.applyForce(pushingForce(bubble).mult(-1))
         }
       })
-
+      dusts.forEach((dust) => {
+        dust.display()
+        dust.move()
+        dust.checkSides()
+      })
+      
       bubbles.forEach((bubble) => {
         if (bubble.lifeSpan < 0) {
           if ((bubbles.length < 60) && (!bubble.outOfBounds)) {
             for (let i = 0; i < 2; i++) {
-              const newBubble = new Bubble(bubble.location.x, bubble.location.y, p.random(10,30))
+              const newBubble = new Bubble(bubble.location.x, bubble.location.y, p.random(10,30), randomSpeed(bubbleSpeed), randomSpeed(bubbleSpeed))
               bubbles.push(newBubble)
             }
           }
@@ -63,11 +71,33 @@ class Background extends React.Component {
         }
       })
 
-      if (bubbles.length < 35) {
-        const bubble = new Bubble(p.random(p.windowWidth), p.random(canvasHeight), p.random(50))
+      dusts.forEach((dust) => {
+        if (dust.isDead === true) {
+          for (let i = 0; i < 2; i++) {
+            const newDust = new Dust(p.random(p.windowWidth), p.random(canvasHeight), p.random(4,8), randomSpeed(dustSpeed), randomSpeed(dustSpeed))
+            dusts.push(newDust)
+          }
+          const index = dusts.indexOf(dust)
+          dusts.splice(index, 1)
+        }
+      })
+
+      if (bubbles.length < 50) {
+        const bubble = new Bubble(p.random(p.windowWidth), p.random(canvasHeight), p.random(1,5), randomSpeed(bubbleSpeed), randomSpeed(bubbleSpeed))
         bubbles.push(bubble)
       }
-  
+
+      drawBottom()
+
+    }
+
+    function volcanoes(x, y) {
+      const bubbleSpeedUp = [15, 20]
+      const bubbleSpeedSide = [-3, 3]
+      const volcanoBubble = new Bubble(x, y, p.random(1,5), randomSpeed(bubbleSpeedSide), randomSpeed(bubbleSpeedUp))
+      bubbles.push(volcanoBubble)
+      const interval = randomSpeed([1200,2000])
+      setTimeout(() => volcanoes(x, y), interval)
     }
 
     p.windowResized = () => {
@@ -100,23 +130,47 @@ class Background extends React.Component {
         p.stroke(c)
         p.line(x, i, x + w, i)
       }
-
     }
 
-    
-    // --------------------------- BUBBLE CLASS ---------------------------------------- // 
-    class Bubble {
+    function randomSpeed(array) {
+      return p.random(array[0], array[1])
+    }
 
-      constructor(X, Y, d) {
+    function drawBottom() {
+      p.fill(0, 5, 10)
+      p.beginShape()
+      p.vertex(0, p.height-30)
+      p.vertex(p.width/7, p.height-60)
+      p.vertex(p.width/6, p.height-70)
+      p.vertex(p.width/5, p.height-100)
+      p.vertex(p.width/4, p.height-70)
+      p.vertex(p.width/3, p.height-60)
+      p.vertex(p.width/2, p.height-70)
+      p.vertex(p.width*0.6, p.height-60)
+      p.vertex(p.width*0.75, p.height-70)
+      p.vertex(p.width*0.8, p.height-100)
+      p.vertex(p.width*0.86, p.height-70)
+      p.vertex(p.width*0.88, p.height-60)
+      p.vertex(p.width, p.height-30)
+      p.vertex(p.width, p.height)
+      p.vertex(0, p.height)
+      p.endShape(p.CLOSE)
+    }
+
+
+    
+    // --------------------------- CLASSES ---------------------------------------- // 
+    class Particle {
+      constructor(X, Y, d, v1, v2) {
         this.location = p.createVector(X, Y)
         this.acceleration = p.createVector(0, 0)
-        this.velocity = p.createVector(p.random(-10,10), p.random(-10,10))
+        this.velocity = p.createVector(v1, v2)
         this.diameter = d
         this.isDead = false
         this.lifeSpan = d
+        this.outOfBounds = false
         this.color = p.color(p.random(0,116),p.random(184,188),p.random(200,222))
         this.color2 = p.color(157,219,234)
-        this.outOfBounds = false
       }
 
       display() {
@@ -125,17 +179,6 @@ class Background extends React.Component {
         p.ellipse(this.location.x, this.location.y, this.lifeSpan, this.lifeSpan)
         p.fill(this.color2)
         p.ellipse(this.location.x + (this.lifeSpan/5), this.location.y - (this.lifeSpan/5), this.lifeSpan/3, this.lifeSpan/3)
-        
-        if (this.lifeSpan > 50) {
-          this.isDead = true
-        }
-        if (this.isDead === true) {
-          this.color = p.color(157,219,255)
-          this.color2 = p.color(157,219,255)
-          this.lifeSpan = this.lifeSpan - 3
-        } else if (this.isDead === false) {
-          this.lifeSpan = this.lifeSpan + 0.03
-        }
       }
 
       move() {
@@ -158,12 +201,53 @@ class Background extends React.Component {
         this.applyForce(drag)
       }
 
+      checkSides() {
+        if ((this.location.x < (0-this.diameter)) || (this.location.x > (p.windowWidth + this.diameter)) 
+          || (this.location.y > canvasHeight+this.diameter) || (this.location.y < 0-this.diameter)) {
+          this.isDead = true
+          this.outOfBounds = true
+        }
+      }
+    }
+
+// -------------------------------------------------------------------------------------------------------------------- //
+    class Bubble extends Particle {
+      constructor(X, Y, d, v1, v2) {
+        super(X, Y, d, v1, v2)
+      }
+
+      checkDeath() {
+        if (this.lifeSpan > 50) {
+          this.isDead = true
+        }
+        if (this.isDead === true) {
+          this.color = p.color(157,219,255)
+          this.color2 = p.color(157,219,255)
+          this.lifeSpan = this.lifeSpan - 3
+        } else if (this.isDead === false) {
+          this.lifeSpan = this.lifeSpan + 0.03
+        }
+      }
+
       clicked() {
         const mouseVector = p.createVector(p.mouseX, p.mouseY)
         const dist = this.location.dist(mouseVector)
         if (dist < this.lifeSpan/2) {
           this.isDead = true
         }
+      }
+
+      boyancy() {
+        let boyance
+        let lift
+        if (this.location.y > canvasHeight/5) {
+          lift = p.map(this.location.y, canvasHeight/5, canvasHeight, 0, -0.008)
+          boyance = p.createVector(0, lift)
+        } else {
+          boyance = p.createVector(0,0)
+        }
+        // console.log(boyance)
+        this.applyForce(boyance)
       }
 
       checkCollision(other) {
@@ -206,28 +290,53 @@ class Background extends React.Component {
           this.applyForce(steer)
         }
       }
-
-      checkSides() {
-        if ((this.location.x < (0-this.diameter)) || (this.location.x > (p.windowWidth + this.diameter)) 
-          || (this.location.y > canvasHeight+this.diameter) || (this.location.y < 0-this.diameter)) {
-          this.isDead = true
-          this.outOfBounds = true
-        }
-      }
-
     }
 
+    // ------------------------------------------------------------------------------------------ //
+    class Dust extends Particle {
+      constructor(X, Y, d, v1, v2) {
+        super(X, Y, d, v1, v2)
+        this.color = p.color(p.random(100,170), p.random(100,170))
+      }
+
+      display() {
+        p.noStroke()
+        p.fill(this.color)
+        p.ellipse(this.location.x, this.location.y, this.lifeSpan, this.lifeSpan)
+      }
+    }
+    // ---------------------------------------------------------------------------------------- //
+
+    class Density {
+      constructor(x, y, c) {
+        this.x = x
+        this.y = y
+        this.c = c
+        this.h = canvasHeight/5
+        this.w = p.windowWidth
+      }
+
+      display() {
+        p.stroke(0)
+        p.fill(255,100,100,100)
+        p.rect(this.x, this.y, this.w, this.h)
+      }
+    }
+
+    volcanoes(p.windowWidth/5, canvasHeight-100)
+    volcanoes(p.windowWidth*0.8, canvasHeight-100)
   }
 
+// ______________________________________________________________________________________________________ //
   componentDidMount() {
     this.myP5 = new p5(this.Background, this.myRef.current)
   }
-
 
   render() {
     return <div ref={this.myRef}>
     </div>
   }
 }
+
 
 export default Background
