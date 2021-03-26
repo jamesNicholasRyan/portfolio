@@ -556,7 +556,7 @@ class Tree extends React.Component {
       }
 
       separation(boids) {
-        let perceptionRadius = 200
+        let perceptionRadius = 100
         let steering = p.createVector()
         let total = 0
         for (let other of boids) {
@@ -572,33 +572,33 @@ class Tree extends React.Component {
           steering.div(total)
           steering.setMag(this.maxSpeed)
           steering.sub(this.velocity)
-          steering.limit(this.maxForce)
+          steering.limit(0.12)
         }
         return steering
       }
 
       contain() {
-        let perceptionRadius = 200
+        let perceptionRadius = 300
         let steering = p.createVector()
         let diff = p.createVector()
-        const limitLocationBottom = p.createVector(this.location.x, p.height-400)
+        const limitLocationBottom = p.createVector(this.location.x, p.height-300)
         const limitLocationTop = p.createVector(this.location.x, 0)
         const distBottom = p.dist(this.location.x, this.location.y, limitLocationBottom.x, limitLocationBottom.y)
         const distTop = p.dist(this.location.x, this.location.y, limitLocationTop.x, limitLocationTop.y)
         if (distBottom < perceptionRadius) {
           diff = p5.Vector.sub(this.location, limitLocationBottom)
-          diff.div(distBottom)
+          diff.div(distBottom*2)
           steering.add(diff)
           steering.setMag(this.maxSpeed)
           steering.sub(this.velocity)
-          steering.limit(0.2)
+          steering.limit(0.1)
         } else if (distTop < perceptionRadius) {
           diff = p5.Vector.sub(this.location, limitLocationTop)
           diff.div(distTop)
           steering.add(diff)
           steering.setMag(this.maxSpeed)
           steering.sub(this.velocity)
-          steering.limit(0.4)
+          steering.limit(0.1)
         }
         return steering
       }
