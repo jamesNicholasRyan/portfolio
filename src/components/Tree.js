@@ -12,8 +12,8 @@ class Tree extends React.Component {
     const canvasHeight = 2000
     const leaveCount = 100
     const dustCount = 50
-    const birdCount = 15
-    const bugCount = 5
+    const birdCount = 10
+    const bugCount = 15
     let leaves = []
     let dusts = []
     let flock = []
@@ -479,7 +479,7 @@ class Tree extends React.Component {
     // -----------------------------------  BOID  ----------------------------------------------------- //
     class Boid {
       constructor() {
-        this.location = p.createVector(p.random(p.windowWidth), p.random(canvasHeight))
+        this.location = p.createVector(p.random(p.windowWidth), p.random(canvasHeight-700))
         this.velocity = p5.Vector.random2D()
         this.velocity.setMag(p.random(2, 4))
         this.acceleration = p.createVector()
@@ -555,51 +555,8 @@ class Tree extends React.Component {
         return steering
       }
 
-      flock(boids) {
-        let alignment = this.align(boids)
-        let cohesion = this.cohesion(boids)
-        this.acceleration.add(alignment)
-        this.acceleration.add(cohesion)
-      }
-    }
-    // ------------------------------------------------------------------------------------------------------- //
-    class Bug extends Boid {
-      constructor() {
-        super()
-        this.maxForce = 0.01
-        this.maxSpeed = 4
-        this.perceptionRadius = 250
-      }
-      move() {
-        this.location.add(this.velocity)
-        this.velocity.add(this.acceleration)
-        this.velocity.limit(this.maxSpeed)
-      }
-    }
-    // -------------------------------------------- BIRD ----------------------------------------------------------- //
-    class Bird extends Boid {
-      constructor() {
-        super()
-        this.maxForce = 0.1
-        this.maxSpeed = 3
-        this.perceptionRadius = 300
-        this.diameter = 10
-        this.color = p.color(0)
-      }
-
-      display() {
-        let triangleSize = 12
-        p.fill(0)
-        // p.stroke(255)
-        p.push();
-        p.translate(this.location.x, this.location.y)
-        p.rotate(this.velocity.heading() - p.radians(90))
-        p.triangle(0,0,triangleSize,0,triangleSize / 2, triangleSize * 1.2)
-        p.pop()
-      }
-
       separation(boids) {
-        let perceptionRadius = 50
+        let perceptionRadius = 200
         let steering = p.createVector()
         let total = 0
         for (let other of boids) {
@@ -620,13 +577,113 @@ class Tree extends React.Component {
         return steering
       }
 
+      contain() {
+        let perceptionRadius = 200
+        let steering = p.createVector()
+        let diff = p.createVector()
+        const limitLocationBottom = p.createVector(this.location.x, p.height-400)
+        const limitLocationTop = p.createVector(this.location.x, 0)
+        const distBottom = p.dist(this.location.x, this.location.y, limitLocationBottom.x, limitLocationBottom.y)
+        const distTop = p.dist(this.location.x, this.location.y, limitLocationTop.x, limitLocationTop.y)
+        if (distBottom < perceptionRadius) {
+          diff = p5.Vector.sub(this.location, limitLocationBottom)
+          diff.div(distBottom)
+          steering.add(diff)
+          steering.setMag(this.maxSpeed)
+          steering.sub(this.velocity)
+          steering.limit(0.2)
+        } else if (distTop < perceptionRadius) {
+          diff = p5.Vector.sub(this.location, limitLocationTop)
+          diff.div(distTop)
+          steering.add(diff)
+          steering.setMag(this.maxSpeed)
+          steering.sub(this.velocity)
+          steering.limit(0.4)
+        }
+        return steering
+      }
+
       flock(boids) {
         let alignment = this.align(boids)
         let cohesion = this.cohesion(boids)
         let separation = this.separation(boids)
+        let contain = this.contain()
         this.acceleration.add(separation)
         this.acceleration.add(alignment)
         this.acceleration.add(cohesion)
+        this.acceleration.add(contain)
+      }
+    }
+    // ------------------------------------------------------------------------------------------------------- //
+    class Bug extends Boid {
+      constructor() {
+        super()
+        this.location = p.createVector(p.random(p.windowWidth), p.random(p.height-500, canvasHeight))
+        this.maxForce = 0.01
+        this.maxSpeed = 4
+        this.perceptionRadius = 250
+      }
+      move() {
+        this.location.add(this.velocity)
+        this.velocity.add(this.acceleration)
+        this.velocity.limit(this.maxSpeed)
+      }
+
+      contain() {
+        let perceptionRadius = 50
+        let steering = p.createVector()
+        let diff = p.createVector()
+        const limitLocationBottom = p.createVector(this.location.x, p.height)
+        const limitLocationTop = p.createVector(this.location.x, p.height-700)
+        const distBottom = p.dist(this.location.x, this.location.y, limitLocationBottom.x, limitLocationBottom.y)
+        const distTop = p.dist(this.location.x, this.location.y, limitLocationTop.x, limitLocationTop.y)
+        if (distBottom < perceptionRadius) {
+          diff = p5.Vector.sub(this.location, limitLocationBottom)
+          diff.div(distBottom)
+          steering.add(diff)
+          steering.setMag(this.maxSpeed)
+          steering.sub(this.velocity)
+          steering.limit(0.08)
+        } else if (distTop < perceptionRadius) {
+          diff = p5.Vector.sub(this.location, limitLocationTop)
+          diff.div(distTop)
+          steering.add(diff)
+          steering.setMag(this.maxSpeed)
+          steering.sub(this.velocity)
+          steering.limit(0.08)
+        }
+        return steering
+      }
+      flock(boids) {
+        let alignment = this.align(boids)
+        let cohesion = this.cohesion(boids)
+        let contain = this.contain()
+        this.acceleration.add(alignment)
+        this.acceleration.add(cohesion)
+        this.acceleration.add(contain)
+      }
+    }
+    // -------------------------------------------- BIRD ----------------------------------------------------------- //
+    class Bird extends Boid {
+      constructor() {
+        super()
+        this.location = p.createVector(p.random(p.windowWidth), p.random(400, canvasHeight-700))
+        this.maxForce = 0.1
+        this.maxSpeed = 3
+        this.perceptionRadius = 300
+        this.diameter = 10
+        this.color = p.color(0)
+      }
+
+      display() {
+        let triangleSize = 20
+        p.fill(0, 20, 40)
+        // p.stroke(255)
+        p.push();
+        p.translate(this.location.x, this.location.y)
+        p.rotate(this.velocity.heading() - p.radians(90))
+        p.triangle(0,0,triangleSize,0,triangleSize / 2, triangleSize * 1.2)
+        p.pop()
       }
     }
 
