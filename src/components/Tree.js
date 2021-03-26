@@ -19,14 +19,19 @@ class Tree extends React.Component {
     // const bubbleSpeed = [-10, 10]
     let angle = p.PI/6
     const leafSpeed = 0.7
-    const gravity = p.createVector(0, 0.001)
+    const gravity = p.createVector(0, 1)
 
     p.setup = () => {
       canvas = p.createCanvas(p.windowWidth, canvasHeight)
       canvas.position(0,0)
       canvas.style('z-index', '-1')
+      const color1 = p.color(18,126,190)
+      const color2 = p.color(255)
+      setGradient(0,0,p.width,p.height,color1,color2)
       for (let i = 0; i < leaveCount; i++) {
-        const leaf = new Leaf(p.random(1)*p.width, p.random(175, 250), 1, 0, 0, p.random(1,385))
+        const xPosition = p.random(1)*p.width
+        const yPosition = p.random(175, 250)
+        const leaf = new Leaf(Math.ceil(xPosition/20)*20, Math.ceil(yPosition/20)*20, 1, 0, 0, p.random(1,385))
         leaf.calculateAge()
         leaves.push(leaf)
       }
@@ -53,12 +58,14 @@ class Tree extends React.Component {
 
         if (leaf.isFalling) {
           leaf.applyForce(gravity)
+          leaf.applyForce(leaf.createWind())
+          leaf.drag()
         }
         if (leaf.isDead) {
           const index = leaves.indexOf(leaf)
           leaves.splice(index, 1)
         }
-        // leaf.drag()
+        
 
         // const dist = leaf.location.dist(mouseVector)
         // if ((dist < 100)) {
@@ -101,6 +108,7 @@ class Tree extends React.Component {
     //     bubble.clicked()
     //   })
     // }
+
 
     function pushingForce(leaf) {
       const mousePosition = p.createVector(p.mouseX, p.mouseY)
@@ -231,7 +239,7 @@ class Tree extends React.Component {
       }
 
       drag() {
-        const dragCeof = 0.01
+        const dragCeof = 0.0001
         const speed = this.velocity.mag()
         const dragMagnitude = dragCeof * speed * speed
         const drag = this.velocity.mult(-1)
@@ -263,12 +271,18 @@ class Tree extends React.Component {
         this.color1 = p.color(0, 255, 140)
         this.colorArray = [0, 255, 140]
         this.isFalling = false
+        this.xoff = p.random(100)
+        this.yoff = p.random(100)
       }
 
       display() {
+        p.push()
         p.noStroke()
         p.fill(this.color1)
-        p.rect(this.location.x, this.location.y, this.diameter)
+        p.translate(this.location.x, this.location.y)
+        p.rotate(p.PI/4)
+        p.rect(0, 0, this.diameter)
+        p.pop()
       }
 
       calculateAge() {
@@ -316,6 +330,15 @@ class Tree extends React.Component {
           this.isDead = true
         }
         this.color1  = p.color(this.colorArray[0], this.colorArray[1], this.colorArray[2])
+      }
+
+      createWind() {
+        const xWind = p.map(p.noise(this.xoff), 0, 1, -1.5, 1.5 )
+        const yWind = p.map(p.noise(this.yoff), 0, 1, -1, 2 )
+        const windVector = p.createVector(xWind, yWind)
+        this.xoff = this.xoff + 0.01
+        this.yoff = this.yoff + 0.01
+        return windVector
       }
 
       // checkDeath() {
