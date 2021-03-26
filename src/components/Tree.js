@@ -12,14 +12,19 @@ class Tree extends React.Component {
     const canvasHeight = 2000
     const leaveCount = 100
     const dustCount = 50
+    const birdCount = 15
+    const bugCount = 5
     let leaves = []
     let dusts = []
+    let flock = []
+    let bugs = []
     var canvas
     const dustSpeed = [-0.3, 0.3]
     // const bubbleSpeed = [-10, 10]
     let angle = p.PI/6
     const leafSpeed = 0.7
     const gravity = p.createVector(0, 1)
+
 
     p.setup = () => {
       canvas = p.createCanvas(p.windowWidth, canvasHeight)
@@ -39,6 +44,12 @@ class Tree extends React.Component {
         const dust = new Dust(p.random(p.windowWidth), p.random(canvasHeight), p.random(4,7), randomSpeed(dustSpeed), randomSpeed(dustSpeed))
         dusts.push(dust)
       }
+      for (let i = 0; i < birdCount; i++) {
+        flock.push(new Bird())
+      }
+      for (let i = 0; i < bugCount; i++) {
+        bugs.push(new Bug())
+      }
     }
 
     p.draw = () => {
@@ -51,6 +62,20 @@ class Tree extends React.Component {
         dust.move()
         dust.checkSides()
       })
+
+      for (let boid of flock) {
+        boid.flock(flock)
+        boid.move()
+        boid.display()
+        boid.checkEdges()
+      }
+      for (let boid of bugs) {
+        boid.flock(bugs)
+        boid.move()
+        boid.display()
+        boid.checkEdges()
+      }
+
       drawTopBox()
       drawBottom()
       // drawCollisionBox1()
@@ -450,7 +475,160 @@ class Tree extends React.Component {
         p.ellipse(this.location.x, this.location.y, this.lifeSpan, this.lifeSpan)
       }
     }
-    // ---------------------------------------------------------------------------------------- //
+
+    // -----------------------------------  BOID  ----------------------------------------------------- //
+    class Boid {
+      constructor() {
+        this.location = p.createVector(p.random(p.windowWidth), p.random(canvasHeight))
+        this.velocity = p5.Vector.random2D()
+        this.velocity.setMag(p.random(2, 4))
+        this.acceleration = p.createVector()
+        this.maxForce = 0.2
+        this.maxSpeed = 4
+        this.perceptionRadius = 100
+        this.diameter = 5
+        this.color = p.color(70, 200)
+      }
+
+      display() {
+        p.strokeWeight(16)
+        p.fill(this.color)
+        p.ellipse(this.location.x, this.location.y, this.diameter)
+      }
+
+      move() {
+        this.location.add(this.velocity)
+        this.velocity.add(this.acceleration)
+        this.velocity.limit(this.maxSpeed)
+        this.acceleration.mult(0)
+      }
+
+      checkEdges() {
+        if (this.location.x > p.width) {
+          this.location.x = 0 
+        } else if (this.location.x < 0) {
+          this.location.x = p.width
+        }
+        if (this.location.y > p.height) {
+          this.location.y = 0 
+        } else if (this.location.y < 0) {
+          this.location.y = p.height
+        }
+      }
+
+      align(boids) {
+        let steering = p.createVector()
+        let total = 0
+        for (let other of boids) {
+          const dist = p.dist(this.location.x, this.location.y, other.location.x, other.location.y)
+          if (other !== this && dist < this.perceptionRadius) {
+            steering.add(other.velocity)
+            total ++
+          }
+        }
+        if (total > 0) {
+          steering.div(total)
+          steering.setMag(this.maxSpeed)
+          steering.sub(this.velocity)
+          steering.limit(this.maxForce)
+        }
+        return steering
+      }
+
+      cohesion(boids) {
+        let steering = p.createVector()
+        let total = 0
+        for (let other of boids) {
+          const dist = p.dist(this.location.x, this.location.y, other.location.x, other.location.y)
+          if (other !== this && dist < this.perceptionRadius) {
+            steering.add(other.location)
+            total ++
+          }
+        }
+        if (total > 0) {
+          steering.div(total)
+          steering.sub(this.location)
+          steering.setMag(this.maxSpeed)
+          steering.sub(this.velocity)
+          steering.limit(this.maxForce)
+        }
+        return steering
+      }
+
+      flock(boids) {
+        let alignment = this.align(boids)
+        let cohesion = this.cohesion(boids)
+        this.acceleration.add(alignment)
+        this.acceleration.add(cohesion)
+      }
+    }
+    // ------------------------------------------------------------------------------------------------------- //
+    class Bug extends Boid {
+      constructor() {
+        super()
+        this.maxForce = 0.01
+        this.maxSpeed = 4
+        this.perceptionRadius = 250
+      }
+      move() {
+        this.location.add(this.velocity)
+        this.velocity.add(this.acceleration)
+        this.velocity.limit(this.maxSpeed)
+      }
+    }
+    // -------------------------------------------- BIRD ----------------------------------------------------------- //
+    class Bird extends Boid {
+      constructor() {
+        super()
+        this.maxForce = 0.1
+        this.maxSpeed = 3
+        this.perceptionRadius = 300
+        this.diameter = 10
+        this.color = p.color(0)
+      }
+
+      display() {
+        let triangleSize = 12
+        p.fill(0)
+        // p.stroke(255)
+        p.push();
+        p.translate(this.location.x, this.location.y)
+        p.rotate(this.velocity.heading() - p.radians(90))
+        p.triangle(0,0,triangleSize,0,triangleSize / 2, triangleSize * 1.2)
+        p.pop()
+      }
+
+      separation(boids) {
+        let perceptionRadius = 50
+        let steering = p.createVector()
+        let total = 0
+        for (let other of boids) {
+          const dist = p.dist(this.location.x, this.location.y, other.location.x, other.location.y)
+          if (other !== this && dist < perceptionRadius) {
+            let diff = p5.Vector.sub(this.location, other.location)
+            diff.div(dist)
+            steering.add(diff)
+            total ++
+          }
+        }
+        if (total > 0) {
+          steering.div(total)
+          steering.setMag(this.maxSpeed)
+          steering.sub(this.velocity)
+          steering.limit(this.maxForce)
+        }
+        return steering
+      }
+
+      flock(boids) {
+        let alignment = this.align(boids)
+        let cohesion = this.cohesion(boids)
+        let separation = this.separation(boids)
+        this.acceleration.add(separation)
+        this.acceleration.add(alignment)
+        this.acceleration.add(cohesion)
+      }
+    }
 
     // volcanoes(p.windowWidth/5, canvasHeight-100)
     // volcanoes(p.windowWidth*0.8, canvasHeight-100)
