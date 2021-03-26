@@ -8,8 +8,7 @@ class Ocean extends React.Component {
   }
 
   Ocean = (p) => {
-
-    // Bubble[] bubbles = new Bubble[10]
+    
     const canvasHeight = 2000
     const bubbleCount = 30
     const dustCount = 50

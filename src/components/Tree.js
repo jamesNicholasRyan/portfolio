@@ -10,7 +10,7 @@ class Tree extends React.Component {
   Tree = (p) => {
     // Bubble[] bubbles = new Bubble[10]
     const canvasHeight = 2000
-    const leaveCount = 76
+    const leaveCount = 100
     const dustCount = 50
     let leaves = []
     let dusts = []
@@ -29,8 +29,8 @@ class Tree extends React.Component {
       const color2 = p.color(255)
       setGradient(0,0,p.width,p.height,color1,color2)
       for (let i = 0; i < leaveCount; i++) {
-        const xPosition = p.random(1)*p.width
-        const yPosition = p.random(175, 250)
+        const xPosition = p.random(0, p.windowWidth)
+        const yPosition = p.random(150, 250)
         const leaf = new Leaf(Math.ceil(xPosition/20)*20, Math.ceil(yPosition/20)*20, 1, 0, 0, p.random(1,385))
         leaf.calculateAge()
         leaves.push(leaf)
@@ -51,31 +51,37 @@ class Tree extends React.Component {
         dust.move()
         dust.checkSides()
       })
+      drawTopBox()
+      drawBottom()
+      // drawCollisionBox1()
+      // drawCollisionBox2()
+      // drawCollisionBox3()
       leaves.forEach((leaf) => {
         leaf.display()
-        leaf.move()
         leaf.grow()
-
-        if (leaf.isFalling) {
+        leaf.checkSides()
+        
+        if ((leaf.isFalling) && (!leaf.checkBottomCollision())) {
+          const dist = leaf.location.dist(mouseVector)
+          leaf.move()
           leaf.applyForce(gravity)
-          leaf.applyForce(leaf.createWind())
           leaf.drag()
+          if ((dist < 150)) {
+            leaf.applyForce(pushingForce(leaf).mult(-50))
+          } else {
+            leaf.applyForce(leaf.createWind())
+          }
+        } else if (leaf.checkBottomCollision()) {
+          console.log('collison!')
+          leaf.isFalling = false
         }
+
         if (leaf.isDead) {
           const index = leaves.indexOf(leaf)
           leaves.splice(index, 1)
         }
-        
-
-        // const dist = leaf.location.dist(mouseVector)
-        // if ((dist < 100)) {
-        //   leaf.applyForce(pushingForce(leaf).mult(-1))
-        // }
       })
-      
-      // leaves.forEach((leaf) => {
-      //   
-      // })
+
 
       dusts.forEach((dust) => {
         if (dust.isDead === true) {
@@ -86,16 +92,12 @@ class Tree extends React.Component {
         }
       })
 
-      if (leaves.length < 80) {
+      if (leaves.length < leaveCount) {
         console.log('makin more leaves!')
         const leaf = new Leaf(p.random(1)*p.width, p.random(175, 250), 1, 0, 0, 1)
         leaf.calculateAge()
         leaves.push(leaf)
       }
-
-
-      drawTree()
-      drawTopBox()
 
     }
 
@@ -109,12 +111,12 @@ class Tree extends React.Component {
     //   })
     // }
 
-
     function pushingForce(leaf) {
+      console.log('pushing leaves!')
       const mousePosition = p.createVector(p.mouseX, p.mouseY)
       const force = mousePosition.sub(leaf.location)
       let distance = force.mag()
-      distance = p.constrain(distance,5.0,25.0)
+      distance = p.constrain(distance,5.0,35.0)
 
       force.normalize()
       const strength = (0.04 * 20 * 20) / (distance * distance)
@@ -136,7 +138,7 @@ class Tree extends React.Component {
       return p.random(array[0], array[1])
     }
 
-    function drawTree() {
+    function drawBottom() {
       p.fill(0, 15, 30)
       p.beginShape()
       p.vertex(0, p.height-90)
@@ -163,6 +165,19 @@ class Tree extends React.Component {
       p.vertex(p.width, 175)
       p.vertex(0, 175)
       p.endShape(p.CLOSE)
+    }
+
+    function drawCollisionBox1() {
+      p.fill(255, 15, 30)
+      p.rect(0, p.height-60, p.width)
+    }
+    function drawCollisionBox2() {
+      p.fill(255, 15, 30)
+      p.rect(p.width*0.29, p.height-90, p.width*0.42)
+    }
+    function drawCollisionBox3() {
+      p.fill(255, 15, 30)
+      p.rect(p.width*0.33, p.height-118, p.width*0.34)
     }
 
     function fractalTrees() {
@@ -281,6 +296,7 @@ class Tree extends React.Component {
         p.fill(this.color1)
         p.translate(this.location.x, this.location.y)
         p.rotate(p.PI/4)
+        p.rectMode(p.CENTER)
         p.rect(0, 0, this.diameter)
         p.pop()
       }
@@ -339,6 +355,30 @@ class Tree extends React.Component {
         this.xoff = this.xoff + 0.01
         this.yoff = this.yoff + 0.01
         return windVector
+      }
+
+      checkBottomCollision() {
+        // console.log(this.location.y)
+        if ((this.location.y > p.height-120) && (this.location.x > p.width*0.33) && (this.location.x < p.width*0.67)) {
+          // p.width*0.33, p.height-118, p.width*0.34
+          this.location.y = p.height - 119
+          this.velocity = p.createVector(0,0)
+          this.acceleration = p.createVector(0,0)
+          return true
+        } else if((this.location.y > p.height-90) && (this.location.x > p.width*0.29) && (this.location.x < p.width*0.71)) {
+          // p.width*0.29, p.height-90, p.width*0.42
+          this.location.y = p.height - 89
+          this.velocity = p.createVector(0,0)
+          this.acceleration = p.createVector(0,0)
+          return true
+        } else if (this.location.y > p.height - 60) {
+          this.location.y = p.height - 59
+          this.velocity = p.createVector(0,0)
+          this.acceleration = p.createVector(0,0)
+          return true
+        } else {
+          return false
+        }
       }
 
       // checkDeath() {
