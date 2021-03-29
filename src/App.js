@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Ocean } from './components/Ocean'
+import Tree from './components/Tree'
+import './App.css'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+  return <div className="App">
+      <div>NAVBAR</div>
+      <div>
+      <Tree />
+      <Ocean />
+        <div>About</div>
+      </div>
+
+      <div>
+        <div>Projects</div>
+        <div class='container'>Hello my name is james
+          <div class='box'>Example text here...</div>
+          <div class='box'>Example text here...</div>
+          <div class='box'>Example text here...</div>
+          <div class='box'>Example text here...</div>
+        </div>
+      </div>
+      <div class='box'>FOOTER</div>
     </div>
-  );
 }
 
-export default App;
+export default App
