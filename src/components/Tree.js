@@ -26,7 +26,6 @@ class Tree extends React.Component {
     const leafSpeed = 0.7
     const gravity = p.createVector(0, 1)
 
-
     p.setup = () => {
       canvas = p.createCanvas(p.windowWidth, canvasHeight)
       canvas.position(0,0)
@@ -99,7 +98,7 @@ class Tree extends React.Component {
             leaf.applyForce(leaf.createWind())
           }
         } else if (leaf.checkBottomCollision()) {
-          console.log('collison!')
+          // console.log('collison!')
           leaf.isFalling = false
         }
 
@@ -120,7 +119,7 @@ class Tree extends React.Component {
       })
 
       if (leaves.length < leaveCount) {
-        console.log('makin more leaves!')
+        // console.log('makin more leaves!')
         const leaf = new Leaf(p.random(1)*p.width, p.random(175, 250), 1, 0, 0, 1)
         leaf.calculateAge()
         leaves.push(leaf)
@@ -139,7 +138,7 @@ class Tree extends React.Component {
     // }
 
     function pushingForce(leaf) {
-      console.log('pushing leaves!')
+      // console.log('pushing leaves!')
       const mousePosition = p.createVector(p.mouseX, p.mouseY)
       const force = mousePosition.sub(leaf.location)
       let distance = force.mag()
