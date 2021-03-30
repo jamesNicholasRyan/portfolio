@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@600&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Fira Sans', sans-serif;
+  background-color: white;
+}
+
+/* code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+} */
+html {
+  /* background-color: white; */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.box {
+  height: 400px;
+  color: white;
+}
+
+.section {
+  margin: 200px 25%;
+  padding: 50px;
+  padding-top: 30px;
+  border-radius: 3px;
+}
+
+.textBoxDark {
+  background-color: rgb(0, 15, 30);
+}
+
+.whiteText {
+  color: white;
+}
+
+.darkText{
+  color: rgb(0, 15, 30)
+}
+
+.opaqueBG{
+  background: rgba(0,0,0,0);
+}
+
+.title {
+  /* color: rgb(0, 15, 30); */
+  margin-top: 500px;
+  font-size: 9vw;
+  /* font-size: 150px; */
+}
+
+.subTitle {
+  margin: 0px 25%;
+  margin-top: 0px;
+  padding-top: 0px;
+  /* font-size: 50px; */
+  font-size: 3vw;
+  border-radius: 3px;
+}
+
+.text-20 {
+  /* font-size: 20px; */
+  font-size: 1vw;
+}
+
+.text-30 {
+  /* font-size: 30px; */
+  font-size: 2vw;
+}
+
+.skillsContainer {
+  display: flex;
+  /* flex-direction: row; */
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.iconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.skillIcon {
+  width: 4vw;
+  margin: 3vh 3vw;
+  transition: 100ms;
+}
+
+.iconHover:hover {
+  opacity: 0.05;
+}
+
+.iconHover:hover + .iconString {
+  display: inline-block;
+}
+
+.iconString {
+  pointer-events: none;
+  color: white;
+  transition: 200ms;
+  display: none;
+}
+
+

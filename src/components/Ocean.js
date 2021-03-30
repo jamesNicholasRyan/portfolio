@@ -97,7 +97,7 @@ class Ocean extends React.Component {
       }
 
       drawBottom()
-
+      drawTop()
     }
 
     function volcanoes(x, y) {
@@ -111,6 +111,10 @@ class Ocean extends React.Component {
 
     p.windowResized = () => {
       p.resizeCanvas(p.windowWidth, p.windowHeight)
+      bubbles = []
+      dusts = []
+      fishes = []
+      p.setup()
     }
 
     p.mousePressed = () => {
@@ -163,6 +167,16 @@ class Ocean extends React.Component {
       p.vertex(p.width, p.height-30)
       p.vertex(p.width, p.height)
       p.vertex(0, p.height)
+      p.endShape(p.CLOSE)
+    }
+
+    function drawTop() {
+      p.fill(0, 15, 30)
+      p.beginShape()
+      p.vertex(0, 0)
+      p.vertex(p.width, 0)
+      p.vertex(p.width, p.height*0.15)
+      p.vertex(0, p.height*0.15)
       p.endShape(p.CLOSE)
     }
 
@@ -348,13 +362,6 @@ class Ocean extends React.Component {
         this.velocity.limit(this.maxSpeed)
         this.acceleration.mult(0)
       }
-
-      // flee() {
-      //   this.location.add(this.velocity)
-      //   this.velocity.add(this.acceleration)
-      //   this.velocity.limit(this.maxSpeed*4)
-      //   this.acceleration.mult(0)
-      // }
 
       checkEdges() {
         if (this.location.x > p.width) {

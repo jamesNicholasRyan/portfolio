@@ -129,6 +129,11 @@ class Tree extends React.Component {
 
     p.windowResized = () => {
       p.resizeCanvas(p.windowWidth, canvasHeight)
+      leaves = []
+      dusts = []
+      flock = []
+      bugs = []
+      p.setup()
     }
 
     // p.mousePressed = () => {
@@ -184,7 +189,7 @@ class Tree extends React.Component {
     }
 
     function drawTopBox() {
-      p.fill(0, 14, 30)
+      p.fill(0, 15, 30)
       p.beginShape()
       p.vertex(0, 0)
       p.vertex(p.width, 0)
