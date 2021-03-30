@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  background-image: '../transparentBG.png';
+  background-size: cover;
 }
 
 .App-logo {
