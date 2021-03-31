@@ -1,8 +1,8 @@
 .navbar{
   z-index: 3;
   width: 100%;
-  min-height: 10vh;
-  max-height: 15vh;
+  min-height: 8vh;
+  max-height: 12vh;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
@@ -19,5 +19,14 @@
 }
 
 .navigation{
-    //your navigation styles
+  width: 100VW;
+  display: flex;
+  // flex-direction: row;
+  justify-content: center;
+  // align-items: center;
+}
+
+.navigationItem {
+  font-size: 1vw;
+  margin: 0px 6vw;
 }

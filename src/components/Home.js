@@ -20,6 +20,11 @@ class Home extends React.Component {
     p.draw = () => {
       p.background(0, 15, 30)
     }
+
+    p.windowResized = () => {
+      p.resizeCanvas(p.windowWidth, p.windowHeight)
+      p.setup()
+    }
   }
 
   componentDidMount() {

@@ -4,14 +4,11 @@ import '../styles/navbar.scss'
 export default function Navbar() {
   return <div>
     <header className='navbar scrolled'>
-
-      <div className="logo">
-        <div className='whiteText'>NAVBAR HERE...</div>
-      </div>
       <nav className="navigation">
-        <div className='whiteText'>ABOUT</div>
-        <div className='whiteText'>PROJECTS</div>
-        <div className='whiteText'>CONTACT</div>
+        <div className='whiteText navigationItem'>Home</div>
+        <div className='whiteText navigationItem'>About</div>
+        <div className='whiteText navigationItem'>Work</div>
+        <div className='whiteText navigationItem'>Contact</div>
       </nav>
 
     </header>
