@@ -26,10 +26,6 @@ class Tree extends React.Component {
     const leafSpeed = 0.7
     const gravity = p.createVector(0, 1)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 4e567f0fbad09bd26fb670149622494844280c03
     p.setup = () => {
       canvas = p.createCanvas(p.windowWidth, canvasHeight)
       canvas.position(0,0)
