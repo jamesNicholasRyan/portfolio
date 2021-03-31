@@ -27,12 +27,13 @@ export default function Sklls() {
   }
   calculateSize()
 
-  return <div 
-    className='skillsContainer' 
-    style={ { 
-      position: 'absolute', 
-      top: `${skillsHeight}px`,
-    } }
+  return <div
+      id='skills'
+      className='skillsContainer' 
+      style={{
+        position: 'absolute', 
+        top: `${skillsHeight}px`,
+      }}
     >
     {iconArray.map((icon, index) => {
       return <div key={index}>

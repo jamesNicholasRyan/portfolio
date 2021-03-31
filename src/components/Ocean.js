@@ -21,6 +21,7 @@ class Ocean extends React.Component {
     const bubbleSpeed = [-10, 10]
 
     p.setup = () => {
+      p.pixelDensity(1)
       canvas = p.createCanvas(p.windowWidth, canvasHeight)
       canvas.position(0, canvasHeight + p.windowHeight)
       canvas.style('z-index', '-1')

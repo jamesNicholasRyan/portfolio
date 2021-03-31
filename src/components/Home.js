@@ -11,6 +11,7 @@ class Home extends React.Component {
     var canvas
 
     p.setup = () => {
+      p.pixelDensity(1)
       console.log('setup!')
       canvas = p.createCanvas(p.windowWidth, p.windowHeight)
       canvas.position(0, 0)

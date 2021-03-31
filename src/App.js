@@ -19,14 +19,14 @@ function App() {
       <Title />
       <About />
       <Skills />
-      <div>Projects</div>
+      {/* <div>Projects</div>
       <div className='container'>Hello my name is james
         <div className='box'>Example text here...</div>
         <div className='box'>Example text here...</div>
         <div className='box'>Example text here...</div>
         <div className='box'>Example text here...</div>
-      </div>
-      <div className='box'>FOOTER</div>
+      </div> */}
+      {/* <div className='box'>FOOTER</div> */}
     </div>
 }
 
