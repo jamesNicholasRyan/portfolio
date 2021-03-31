@@ -22,7 +22,7 @@ class Ocean extends React.Component {
 
     p.setup = () => {
       canvas = p.createCanvas(p.windowWidth, canvasHeight)
-      canvas.position(0, canvasHeight)
+      canvas.position(0, canvasHeight+p.windowHeight)
       canvas.style('z-index', '-1')
       for (let i = 0; i < bubbleCount; i++) {
         const bubble = new Bubble(p.random(p.windowWidth), p.random(canvasHeight), p.random(1,45), randomSpeed(bubbleSpeed), randomSpeed(bubbleSpeed))

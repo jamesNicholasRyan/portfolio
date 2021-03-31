@@ -1,6 +1,5 @@
 import React from 'react'
 import p5 from 'p5'
-import { Boid, Bug, Bird } from './bug'
 
 class Tree extends React.Component {
   constructor(props) {
@@ -28,7 +27,7 @@ class Tree extends React.Component {
 
     p.setup = () => {
       canvas = p.createCanvas(p.windowWidth, canvasHeight)
-      canvas.position(0,0)
+      canvas.position(0,p.windowHeight)
       canvas.style('z-index', '-1')
       const color1 = p.color(18,126,190)
       const color2 = p.color(255)
