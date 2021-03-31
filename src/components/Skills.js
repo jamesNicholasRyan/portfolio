@@ -18,8 +18,22 @@ import Webpack from '../images/Webpack.png'
 export default function Sklls() {
   const iconArray = [Babel, CSS3, Flask, Git, GitHub, HTML5, JavaScript, MongoDB, Nodejs, npm, p5js, PostgreSQL, Python, Reactjs, Webpack]
   const iconString = ['Babel', 'CSS3', 'Flask', 'Git', 'GitHub', 'HTML5', 'JavaScript', 'MongoDB', 'Node.js', 'npm', 'p5.js', 'PostgreSQL', 'Python', 'React.js', 'Webpack']
+  
+  let skillsHeight = 0
+  function calculateSize() {
+    const { innerHeight: height } = window
+    skillsHeight = String(height + 2000)
+    console.log(skillsHeight)
+  }
+  calculateSize()
 
-  return <div className='skillsContainer'>
+  return <div 
+    className='skillsContainer' 
+    style={ { 
+      position: 'absolute', 
+      top: `${skillsHeight}px`,
+    } }
+    >
     {iconArray.map((icon, index) => {
       return <div key={index}>
         <div className='iconContainer'>

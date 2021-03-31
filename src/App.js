@@ -9,6 +9,7 @@ import Home from './components/Home'
 import './styles/App.css'
 
 function App() {
+  window.onresize = function() { window.location.reload(false); }
 
   return <div className="App">
       <Home />
@@ -17,9 +18,7 @@ function App() {
       <Navbar />
       <Title />
       <About />
-      <div style={ { position: 'absolute', top: '207%' } }>
       <Skills />
-      </div>
       <div>Projects</div>
       <div className='container'>Hello my name is james
         <div className='box'>Example text here...</div>

@@ -1,5 +1,6 @@
 import React from 'react'
 import p5 from 'p5'
+import Skills from './Skills'
 
 class Ocean extends React.Component {
   constructor(props) {
@@ -8,7 +9,6 @@ class Ocean extends React.Component {
   }
 
   Ocean = (p) => {
-    
     const canvasHeight = 2000
     const bubbleCount = 30
     const dustCount = 50
@@ -22,7 +22,7 @@ class Ocean extends React.Component {
 
     p.setup = () => {
       canvas = p.createCanvas(p.windowWidth, canvasHeight)
-      canvas.position(0, canvasHeight+p.windowHeight)
+      canvas.position(0, canvasHeight + p.windowHeight)
       canvas.style('z-index', '-1')
       for (let i = 0; i < bubbleCount; i++) {
         const bubble = new Bubble(p.random(p.windowWidth), p.random(canvasHeight), p.random(1,45), randomSpeed(bubbleSpeed), randomSpeed(bubbleSpeed))
