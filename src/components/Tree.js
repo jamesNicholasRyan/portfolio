@@ -1,5 +1,6 @@
 import React from 'react'
 import p5 from 'p5'
+import { Boid, Bug, Bird } from './bug'
 
 class Tree extends React.Component {
   constructor(props) {
@@ -25,7 +26,10 @@ class Tree extends React.Component {
     const leafSpeed = 0.7
     const gravity = p.createVector(0, 1)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4e567f0fbad09bd26fb670149622494844280c03
     p.setup = () => {
       canvas = p.createCanvas(p.windowWidth, canvasHeight)
       canvas.position(0,0)
@@ -91,13 +95,14 @@ class Tree extends React.Component {
           leaf.move()
           leaf.applyForce(gravity)
           leaf.drag()
+          // leaf.applyForce(leaf.createWind())
           if ((dist < 150)) {
-            leaf.applyForce(pushingForce(leaf).mult(-50))
+            leaf.applyForce(pushingForce(leaf).mult(-20))
           } else {
             leaf.applyForce(leaf.createWind())
           }
         } else if (leaf.checkBottomCollision()) {
-          console.log('collison!')
+          // console.log('collison!')
           leaf.isFalling = false
         }
 
@@ -118,7 +123,7 @@ class Tree extends React.Component {
       })
 
       if (leaves.length < leaveCount) {
-        console.log('makin more leaves!')
+        // console.log('makin more leaves!')
         const leaf = new Leaf(p.random(1)*p.width, p.random(175, 250), 1, 0, 0, 1)
         leaf.calculateAge()
         leaves.push(leaf)
@@ -128,6 +133,11 @@ class Tree extends React.Component {
 
     p.windowResized = () => {
       p.resizeCanvas(p.windowWidth, canvasHeight)
+      leaves = []
+      dusts = []
+      flock = []
+      bugs = []
+      p.setup()
     }
 
     // p.mousePressed = () => {
@@ -137,11 +147,11 @@ class Tree extends React.Component {
     // }
 
     function pushingForce(leaf) {
-      console.log('pushing leaves!')
+      // console.log('pushing leaves!')
       const mousePosition = p.createVector(p.mouseX, p.mouseY)
       const force = mousePosition.sub(leaf.location)
       let distance = force.mag()
-      distance = p.constrain(distance,5.0,35.0)
+      distance = p.constrain(distance,5.0,13.0)
 
       force.normalize()
       const strength = (0.04 * 20 * 20) / (distance * distance)
@@ -183,7 +193,7 @@ class Tree extends React.Component {
     }
 
     function drawTopBox() {
-      p.fill(0, 14, 30)
+      p.fill(0, 15, 30)
       p.beginShape()
       p.vertex(0, 0)
       p.vertex(p.width, 0)
