@@ -26,6 +26,13 @@ class Tree extends React.Component {
     const leafSpeed = 0.7
     const gravity = p.createVector(0, 1)
     const textBoundary = [ p.windowWidth*0.36, canvasHeight*0.45, p.windowWidth*0.5, 320]
+    let img
+    let bg
+
+    p.preload = () => {
+      img = p.loadImage('https://media-exp1.licdn.com/dms/image/C4D03AQEhHTR0GDO0aQ/profile-displayphoto-shrink_800_800/0/1555516099921?e=1622678400&v=beta&t=q5f2tzzs9-oHZzUOuSv3r46XhbAgp1E_4jZ--oHb76s')
+      bg = p.loadImage('https://i.imgur.com/Faf3TbX.png')
+    }
 
     p.setup = () => {
       p.pixelDensity(1)
@@ -34,7 +41,7 @@ class Tree extends React.Component {
       canvas.style('z-index', '-1')
       const color1 = p.color(18,126,190)
       const color2 = p.color(255)
-      setGradient(0,0,p.width,p.height,color1,color2)
+      // setGradient(0,0,p.width,p.height,color1,color2)
       for (let i = 0; i < leaveCount/2; i++) {
         const xPosition = p.random(0, p.windowWidth)
         const yPosition = p.random(150, 250)
@@ -65,7 +72,8 @@ class Tree extends React.Component {
       const mouseVector = p.createVector(p.mouseX, p.mouseY)
       const color1 = p.color(18,126,190)
       const color2 = p.color(255)
-      setGradient(0,0,p.width,p.height,color1,color2)
+      // setGradient(0,0,p.width,p.height,color1,color2)
+      p.background(bg)
       dusts.forEach((dust) => {
         dust.display()
         dust.move()
@@ -87,14 +95,13 @@ class Tree extends React.Component {
 
       drawTopBox()
       drawBottom()
+      drawBranches()
 
       leavesTwo.forEach((leaf) => {
         runLeaf(leaf, mouseVector, leavesTwo)
         leaf.checkText()
       })
-      // drawCollisionBox1()
-      // drawCollisionBox2()
-      // drawCollisionBox3()
+      p.image(img, p.windowWidth*0.18, canvasHeight*0.4, 300, 300)
       p.fill(0)
       p.textSize(p.windowHeight*0.06)
       p.textFont('Helvetica')
@@ -107,6 +114,10 @@ class Tree extends React.Component {
         textBoundary[2], 
         textBoundary[3]
       )
+
+      const text = p.frameRate()
+      p.fill(255)
+      p.text(text, 500, 500)
 
       leavesOne.forEach((leaf) => {
         runLeaf(leaf, mouseVector, leavesOne)
@@ -191,15 +202,15 @@ class Tree extends React.Component {
       return force
     }
 
-    function setGradient(x,y,w,h,c1,c2) {
-      p.noFill()
-      for (let i = y; i <= y + h; i++) {
-        let inter = p.map(i, y, y + h, 0, 1)
-        let c = p.lerpColor(c1, c2, inter)
-        p.stroke(c)
-        p.line(x, i, x + w, i)
-      }
-    }
+    // function setGradient(x,y,w,h,c1,c2) {
+    //   p.noFill()
+    //   for (let i = y; i <= y + h; i++) {
+    //     let inter = p.map(i, y, y + h, 0, 1)
+    //     let c = p.lerpColor(c1, c2, inter)
+    //     p.stroke(c)
+    //     p.line(x, i, x + w, i)
+    //   }
+    // }
 
     function randomSpeed(array) {
       return p.random(array[0], array[1])
@@ -229,63 +240,20 @@ class Tree extends React.Component {
       p.beginShape()
       p.vertex(0, 0)
       p.vertex(p.width, 0)
-      p.vertex(p.width, 175)
-      p.vertex(0, 175)
+      p.vertex(p.width, 150)
+      p.vertex(0, 150)
       p.endShape(p.CLOSE)
     }
 
-    function drawCollisionBox1() {
-      p.fill(255, 15, 30)
-      p.rect(0, p.height-60, p.width)
-    }
-    function drawCollisionBox2() {
-      p.fill(255, 15, 30)
-      p.rect(p.width*0.29, p.height-90, p.width*0.42)
-    }
-    function drawCollisionBox3() {
-      p.fill(255, 15, 30)
-      p.rect(p.width*0.33, p.height-118, p.width*0.34)
-    }
-
-    function fractalTrees() {
-      p.stroke(0, 15, 30)
-      p.push()
-      p.translate(p.width*0.07, 0)
-      fractal(100)
-      for (let i = 0; i < 6; i++) {
-        p.translate(p.width*0.14, -100)
-        fractal(100)
-      }
-      p.pop()
-      p.translate(p.width*0.07, 0)
-      fractal(100)
-      for (let i = 0; i < 6; i++) {
-        p.translate(p.width*0.7, -200)
-        fractal(100)
+    function drawBranches() {
+      let branchCount = p.width/5
+      for (let i = 0; i < branchCount; i ++) {
+        p.fill(0, 15, 30)
+        p.quad(i*20, 150, (i*20)+10, 150, (i*20)+40, 270, (i*20)+30, 270)
+        p.fill(0, 15, 30)
+        p.quad(i*20, 150, (i*20)+20, 150, (i*20)-20, 270, (i*20)-30, 270)
       }
     }
-
-    function fractal(len) {
-      // angle = p.random(0,p.PI/3)
-      // const angle = p.PI/3
-      
-      p.strokeWeight(8)
-      p.line(0, 0, 0, len)
-      p.translate(0, len)
-      len *= 0.67
-      if (len > 5) {
-        p.push()
-        p.rotate(angle)
-        fractal(len)
-        p.pop()
-        p.push()
-        p.rotate(-angle)
-        fractal(len)
-        p.pop()
-      }
-    }
-
-
 
     
     // --------------------------- CLASSES ---------------------------------------- // 

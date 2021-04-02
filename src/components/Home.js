@@ -20,6 +20,9 @@ class Home extends React.Component {
 
     p.draw = () => {
       p.background(0, 15, 30)
+      const text = p.frameRate()
+      p.fill(255)
+      p.text(text, 500, 500)
     }
 
     p.windowResized = () => {

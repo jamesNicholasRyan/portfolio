@@ -15,7 +15,9 @@ export default function Navbar() {
         <div className='whiteText navigationItem'>
           <Link activeClass='active' to='skills' spy={true} smooth={true} offset={-300}>Skills</Link>
         </div>
-        <div className='whiteText navigationItem'>Work</div>
+        <div className='whiteText navigationItem'>
+          <Link activeClass='active' to='work' spy={true} smooth={true} offset={-300}>Work</Link>
+        </div>
         <div className='whiteText navigationItem'>Contact</div>
       </nav>
     </header>

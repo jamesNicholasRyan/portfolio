@@ -19,6 +19,11 @@ class Ocean extends React.Component {
     var canvas
     const dustSpeed = [-0.3, 0.3]
     const bubbleSpeed = [-10, 10]
+    let bg
+
+    p.preload = () => {
+      bg = p.loadImage('https://i.imgur.com/K51YGkp.png')
+    }
 
     p.setup = () => {
       p.pixelDensity(1)
@@ -41,10 +46,10 @@ class Ocean extends React.Component {
     }
 
     p.draw = () => {
+      p.background(bg)
       const mouseVector = p.createVector(p.mouseX, p.mouseY)
       const color1 = p.color(18,126,190)
       const color2 = p.color(0, 10, 20)
-      setGradient(0,0,p.width,p.height,color1,color2)
       fishes.forEach((boid) => {
         boid.display()
         boid.move()
@@ -97,6 +102,10 @@ class Ocean extends React.Component {
         bubbles.push(bubble)
       }
 
+      const text = p.frameRate()
+      p.fill(255)
+      p.text(text, 500, 1000)
+
       drawBottom()
       drawTop()
     }
@@ -136,16 +145,6 @@ class Ocean extends React.Component {
       return force
     }
 
-    function setGradient(x,y,w,h,c1,c2) {
-      p.noFill()
-      for (let i = y; i <= y + h; i++) {
-        let inter = p.map(i, y, y + h, 0, 1)
-        let c = p.lerpColor(c1, c2, inter)
-        p.stroke(c)
-        p.line(x, i, x + w, i)
-      }
-    }
-
     function randomSpeed(array) {
       return p.random(array[0], array[1])
     }
@@ -176,11 +175,13 @@ class Ocean extends React.Component {
       p.beginShape()
       p.vertex(0, 0)
       p.vertex(p.width, 0)
-      p.vertex(p.width, p.height*0.15)
-      p.vertex(0, p.height*0.15)
+      p.vertex(p.width, p.height*0.24)
+      p.vertex(p.width*0.8, p.height*0.26)
+      p.vertex(p.width*0.5, p.height*0.25)
+      p.vertex(p.width*0.2, p.height*0.26)
+      p.vertex(0, p.height*0.24)
       p.endShape(p.CLOSE)
     }
-
 
     
     // --------------------------- CLASSES ---------------------------------------- // 
@@ -193,8 +194,8 @@ class Ocean extends React.Component {
         this.isDead = false
         this.lifeSpan = d
         this.outOfBounds = false
-        this.color = p.color(p.random(0,116),p.random(184,188),p.random(200,222))
-        this.color2 = p.color(157,219,234)
+        this.color = p.color(p.random(0,116),p.random(184,188),p.random(200,222), 50)
+        this.color2 = p.color(157,219,234, 100)
       }
 
       display() {
@@ -245,8 +246,8 @@ class Ocean extends React.Component {
           this.isDead = true
         }
         if (this.isDead === true) {
-          this.color = p.color(157,219,255)
-          this.color2 = p.color(157,219,255)
+          this.color = p.color(157,219,255, 150)
+          this.color2 = p.color(157,219,255, 150)
           this.lifeSpan = this.lifeSpan - 3
         } else if (this.isDead === false) {
           this.lifeSpan = this.lifeSpan + 0.03
@@ -472,7 +473,7 @@ class Ocean extends React.Component {
         }
       }
     }
-    // -------------------------------------------- BIRD ----------------------------------------------------------- //
+    // -------------------------------------------- FISH ----------------------------------------------------------- //
     class Fish extends Boid {
       constructor() {
         super()

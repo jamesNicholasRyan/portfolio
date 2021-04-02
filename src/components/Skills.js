@@ -22,26 +22,33 @@ export default function Sklls() {
   let skillsHeight = 0
   function calculateSize() {
     const { innerHeight: height } = window
-    skillsHeight = String(height + 2000)
-    console.log(skillsHeight)
+    skillsHeight = String(height + 1980)
   }
   calculateSize()
 
-  return <div
-      id='skills'
-      className='skillsContainer' 
-      style={{
-        position: 'absolute', 
-        top: `${skillsHeight}px`,
-      }}
-    >
-    {iconArray.map((icon, index) => {
-      return <div key={index}>
-        <div className='iconContainer'>
-          <img src={icon} alt={icon} className='skillIcon iconHover'></img>
-          <p style={ { position: 'absolute' } } className='iconString text-30'>{iconString[index]}</p>
+  return <div 
+        style={{
+          position: 'absolute', 
+          top: `${skillsHeight}px`,
+        }}
+        >
+      <div className='skillsTitle'>My Skills</div>
+      <div
+        id='skills'
+        className='skillsContainer' 
+        // style={{
+        //   position: 'absolute', 
+        //   top: `${skillsHeight}px`,
+        // }}
+      >
+      {iconArray.map((icon, index) => {
+        return <div key={index}>
+          <div className='iconContainer'>
+            <img src={icon} alt={icon} className='skillIcon iconHover'></img>
+            <p style={ { position: 'absolute' } } className='iconString text-30'>{iconString[index]}</p>
+          </div>
         </div>
-      </div>
-    })}
+      })}
+    </div>
   </div>
 }
