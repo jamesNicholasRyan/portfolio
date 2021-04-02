@@ -6,7 +6,7 @@ export default function Title() {
 
   return <div id='home' className='titleSection'>
     <div className='titleContainer'>
-      <div className='title'>JAMES RYAN</div>
+      <div className='titleJR'>JAMES RYAN</div>
       <p className='subTitle'>Software Developer</p>
       <p className='quote'>{quote}</p>
     </div>

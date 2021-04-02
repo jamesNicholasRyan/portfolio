@@ -57,7 +57,7 @@ body {
   padding-left: 6vw;
 }
 
-.title {
+.titleJR {
   margin-top: 30vh;
   margin-bottom: 0px;
   padding-bottom: 0px;
@@ -101,6 +101,7 @@ body {
 }
 
 .skillsTitle {
+  text-align: center;
   font-size: 4vw;
   color: white;
   margin-bottom: 2vw;
@@ -138,7 +139,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 80vw;
+  width: 100%;
   padding: 0px 10vw;
 }
 
@@ -177,6 +178,7 @@ body {
 }
 
 .projTitle {
+  color:white;
   font-size: 3vw;
   padding: 0px;
   margin: 0px 0px 1vw 0px;
@@ -184,9 +186,19 @@ body {
 
 a {
   text-decoration: none;
-  color: white;
+  color: white !important;
 }
 
 .readmeLink {
   color: rgb(0,150,255)
+}
+
+.contactSection {
+  position: absolute;
+  /* bottom: -4100px; */
+  width: 100%;
+  height: 700px;
+  background-color: rgb(0, 5, 10);
+  display: flex;
+  justify-content: center;
 }

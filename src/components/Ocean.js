@@ -48,8 +48,8 @@ class Ocean extends React.Component {
     p.draw = () => {
       p.background(bg)
       const mouseVector = p.createVector(p.mouseX, p.mouseY)
-      const color1 = p.color(18,126,190)
-      const color2 = p.color(0, 10, 20)
+      // const color1 = p.color(18,126,190)
+      // const color2 = p.color(0, 10, 20)
       fishes.forEach((boid) => {
         boid.display()
         boid.move()

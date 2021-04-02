@@ -39,8 +39,8 @@ class Tree extends React.Component {
       canvas = p.createCanvas(p.windowWidth, canvasHeight)
       canvas.position(0,p.windowHeight)
       canvas.style('z-index', '-1')
-      const color1 = p.color(18,126,190)
-      const color2 = p.color(255)
+      // const color1 = p.color(18,126,190)
+      // const color2 = p.color(255)
       // setGradient(0,0,p.width,p.height,color1,color2)
       for (let i = 0; i < leaveCount/2; i++) {
         const xPosition = p.random(0, p.windowWidth)
@@ -70,8 +70,8 @@ class Tree extends React.Component {
 
     p.draw = () => {
       const mouseVector = p.createVector(p.mouseX, p.mouseY)
-      const color1 = p.color(18,126,190)
-      const color2 = p.color(255)
+      // const color1 = p.color(18,126,190)
+      // const color2 = p.color(255)
       // setGradient(0,0,p.width,p.height,color1,color2)
       p.background(bg)
       dusts.forEach((dust) => {
@@ -145,6 +145,7 @@ class Tree extends React.Component {
         leaf.calculateAge()
         leavesTwo.push(leaf)
       }
+      // drawBranches()
     }
 
     function runLeaf(leaf, mouseVector, array) {
@@ -182,12 +183,6 @@ class Tree extends React.Component {
       bugs = []
       p.setup()
     }
-
-    // p.mousePressed = () => {
-    //   bubbles.forEach((bubble) => {
-    //     bubble.clicked()
-    //   })
-    // }
 
     function pushingForce(leaf) {
       // console.log('pushing leaves!')
@@ -247,11 +242,10 @@ class Tree extends React.Component {
 
     function drawBranches() {
       let branchCount = p.width/5
-      for (let i = 0; i < branchCount; i ++) {
+      for (let i = -2; i < branchCount; i ++) {
         p.fill(0, 15, 30)
-        p.quad(i*20, 150, (i*20)+10, 150, (i*20)+40, 270, (i*20)+30, 270)
-        p.fill(0, 15, 30)
-        p.quad(i*20, 150, (i*20)+20, 150, (i*20)-20, 270, (i*20)-30, 270)
+        p.quad(i*40, 150, (i*40)+20, 150, (i*40)+120, 250, (i*40)+100, 250)
+        p.quad(i*40, 150, (i*40)-20, 150, (i*40)-120, 250, (i*40)-100, 250)
       }
     }
 
@@ -426,7 +420,6 @@ class Tree extends React.Component {
           {
             this.colorAlpha --
           } else if (this.location.y > (canvasHeight*0.38 + 290)) {
-          console.log('out of boundary!')
           this.colorAlpha ++
         }
       }

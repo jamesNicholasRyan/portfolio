@@ -7,7 +7,9 @@ import About from './components/About'
 import Skills from './components/Skills'
 import Home from './components/Home'
 import Work from './components/Work'
+import Contact from './components/Contact'
 import './styles/App.css'
+import 'bulma'
 
 function App() {
   window.onresize = function() { window.location.reload(false); }
@@ -21,14 +23,7 @@ function App() {
       <About />
       <Skills />
       <Work />
-      {/* <div>Projects</div>
-      <div className='container'>Hello my name is james
-        <div className='box'>Example text here...</div>
-        <div className='box'>Example text here...</div>
-        <div className='box'>Example text here...</div>
-        <div className='box'>Example text here...</div>
-      </div> */}
-      {/* <div className='box'>FOOTER</div> */}
+      <Contact />
     </div>
 }
 
