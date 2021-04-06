@@ -26,12 +26,7 @@
     "eject": "react-scripts eject",
     "deploy": "gh-pages -b master -d build"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
+  
   "browserslist": {
     "production": [
       ">0.2%",

@@ -2,6 +2,13 @@ import React from 'react'
 import p5 from 'p5'
 import Skills from './Skills'
 
+// "eslintConfig": {
+//   "extends": [
+//     "react-app",
+//     "react-app/jest"
+//   ]
+// },
+
 class Ocean extends React.Component {
   constructor(props) {
     super(props)
