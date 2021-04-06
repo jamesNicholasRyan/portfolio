@@ -5,27 +5,25 @@ import Navbar from './components/Navbar'
 import Title from './components/Title'
 import About from './components/About'
 import Skills from './components/Skills'
+import Home from './components/Home'
+import Work from './components/Work'
+import Contact from './components/Contact'
 import './styles/App.css'
+import 'bulma'
 
 function App() {
+  window.onresize = function() { window.location.reload(false); }
 
   return <div className="App">
+      <Home />
       <Tree />
       <Ocean />
       <Navbar />
       <Title />
       <About />
-      <div style={ { position: 'absolute', top: '207%' } }>
       <Skills />
-      </div>
-      <div>Projects</div>
-      <div class='container'>Hello my name is james
-        <div class='box'>Example text here...</div>
-        <div class='box'>Example text here...</div>
-        <div class='box'>Example text here...</div>
-        <div class='box'>Example text here...</div>
-      </div>
-      <div class='box'>FOOTER</div>
+      <Work />
+      <Contact />
     </div>
 }
 
