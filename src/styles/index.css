@@ -231,4 +231,31 @@ a {
     padding-right: 0px;
     padding-top: 0px;
   }
+
+  .slide, .slideSectionLeft, .slideSectionRight {
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+
+  }
+  .projTitle {
+    font-size: 8vw;
+  }
+  .projectImage {
+    width: 50vw;
+  }
+  .slideSectionRight, .slideSectionLeft { 
+    width: 70%;
+    height: -20px;
+    font-size: 2.5vw;
+  }
+  .readmeLink {
+    font-size: 5vw;
+  }
+  .nextButton {
+    left: 90%;
+  }
+  .previousButton {
+    left: 10%;
+  }
 }
