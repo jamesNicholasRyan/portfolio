@@ -182,11 +182,11 @@ class Ocean extends React.Component {
       p.beginShape()
       p.vertex(0, 0)
       p.vertex(p.width, 0)
-      p.vertex(p.width, p.height*0.24)
-      p.vertex(p.width*0.8, p.height*0.26)
-      p.vertex(p.width*0.5, p.height*0.25)
-      p.vertex(p.width*0.2, p.height*0.26)
-      p.vertex(0, p.height*0.24)
+      p.vertex(p.width, p.height*0.26)
+      p.vertex(p.width*0.8, p.height*0.28)
+      p.vertex(p.width*0.5, p.height*0.27)
+      p.vertex(p.width*0.2, p.height*0.28)
+      p.vertex(0, p.height*0.26)
       p.endShape(p.CLOSE)
     }
 

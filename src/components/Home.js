@@ -9,7 +9,6 @@ class Home extends React.Component {
 
   Home = (p) => {
     var canvas
-
     p.setup = () => {
       p.pixelDensity(1)
       console.log('setup!')
