@@ -49,15 +49,13 @@ export default function Work() {
       }}
     > 
       <div className='skillsTitle'>My Work</div>
-      <Slider 
-        // animateIn={animateIn} 
-      >
+      <Slider>
         {slides.map((slide, index) => {
           return <div key={index} className='slide slider-content'>
             <a className='slideSectionLeft' href={slide.siteLink} target="_blank" rel="noreferrer">
               <h2 className='projTitle'>{slide.title}</h2>
               <div className='projectImage'>
-                <img className='image' src={slide.image} alt={slide.image}></img>
+                <img className='imageJR' src={slide.image} alt={slide.image}></img>
               </div>
             </a>
 

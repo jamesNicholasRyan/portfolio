@@ -9,7 +9,6 @@ class Home extends React.Component {
 
   Home = (p) => {
     var canvas
-
     p.setup = () => {
       p.pixelDensity(1)
       console.log('setup!')
@@ -20,9 +19,9 @@ class Home extends React.Component {
 
     p.draw = () => {
       p.background(0, 15, 30)
-      const text = p.frameRate()
-      p.fill(255)
-      p.text(text, 500, 500)
+      // const text = p.frameRate()
+      // p.fill(255)
+      // p.text(text, 500, 500)
     }
 
     p.windowResized = () => {
