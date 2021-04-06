@@ -1,28 +1,29 @@
 import React from 'react'
 import { Ocean } from './components/Ocean'
 import Tree from './components/Tree'
-import './App.css'
+import Navbar from './components/Navbar'
+import Title from './components/Title'
+import About from './components/About'
+import Skills from './components/Skills'
+import Home from './components/Home'
+import Work from './components/Work'
+import Contact from './components/Contact'
+import './styles/App.css'
+import 'bulma'
 
 function App() {
+  window.onresize = function() { window.location.reload(false); }
 
   return <div className="App">
-      <div>NAVBAR</div>
-      <div>
+      <Home />
       <Tree />
       <Ocean />
-        <div>About</div>
-      </div>
-
-      <div>
-        <div>Projects</div>
-        <div class='container'>Hello my name is james
-          <div class='box'>Example text here...</div>
-          <div class='box'>Example text here...</div>
-          <div class='box'>Example text here...</div>
-          <div class='box'>Example text here...</div>
-        </div>
-      </div>
-      <div class='box'>FOOTER</div>
+      <Navbar />
+      <Title />
+      <About />
+      <Skills />
+      <Work />
+      <Contact />
     </div>
 }
 

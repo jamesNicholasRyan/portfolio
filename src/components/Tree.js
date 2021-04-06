@@ -10,11 +10,12 @@ class Tree extends React.Component {
   Tree = (p) => {
     // Bubble[] bubbles = new Bubble[10]
     const canvasHeight = 2000
-    const leaveCount = 100
+    const leaveCount = (p.windowWidth/17)
     const dustCount = 50
     const birdCount = 10
     const bugCount = 15
-    let leaves = []
+    let leavesOne = []
+    let leavesTwo = []
     let dusts = []
     let flock = []
     let bugs = []
@@ -24,21 +25,36 @@ class Tree extends React.Component {
     let angle = p.PI/6
     const leafSpeed = 0.7
     const gravity = p.createVector(0, 1)
+    const textBoundary = [ p.windowWidth*0.36, canvasHeight*0.45, p.windowWidth*0.5, 320]
+    let img
+    let bg
 
+    p.preload = () => {
+      img = p.loadImage('https://media-exp1.licdn.com/dms/image/C4D03AQEhHTR0GDO0aQ/profile-displayphoto-shrink_800_800/0/1555516099921?e=1622678400&v=beta&t=q5f2tzzs9-oHZzUOuSv3r46XhbAgp1E_4jZ--oHb76s')
+      bg = p.loadImage('https://i.imgur.com/Faf3TbX.png')
+    }
 
     p.setup = () => {
+      p.pixelDensity(1)
       canvas = p.createCanvas(p.windowWidth, canvasHeight)
-      canvas.position(0,0)
+      canvas.position(0,p.windowHeight)
       canvas.style('z-index', '-1')
-      const color1 = p.color(18,126,190)
-      const color2 = p.color(255)
-      setGradient(0,0,p.width,p.height,color1,color2)
-      for (let i = 0; i < leaveCount; i++) {
+      // const color1 = p.color(18,126,190)
+      // const color2 = p.color(255)
+      // setGradient(0,0,p.width,p.height,color1,color2)
+      for (let i = 0; i < leaveCount/2; i++) {
         const xPosition = p.random(0, p.windowWidth)
         const yPosition = p.random(150, 250)
         const leaf = new Leaf(Math.ceil(xPosition/20)*20, Math.ceil(yPosition/20)*20, 1, 0, 0, p.random(1,385))
         leaf.calculateAge()
-        leaves.push(leaf)
+        leavesOne.push(leaf)
+      }
+      for (let i = 0; i < leaveCount/2; i++) {
+        const xPosition = p.random(0, p.windowWidth)
+        const yPosition = p.random(150, 250)
+        const leaf = new Leaf(Math.ceil(xPosition/20)*20, Math.ceil(yPosition/20)*20, 1, 0, 0, p.random(1,385))
+        leaf.calculateAge()
+        leavesTwo.push(leaf)
       }
       for (let i = 0; i < dustCount; i++) {
         const dust = new Dust(p.random(p.windowWidth), p.random(canvasHeight), p.random(4,7), randomSpeed(dustSpeed), randomSpeed(dustSpeed))
@@ -54,9 +70,10 @@ class Tree extends React.Component {
 
     p.draw = () => {
       const mouseVector = p.createVector(p.mouseX, p.mouseY)
-      const color1 = p.color(18,126,190)
-      const color2 = p.color(255)
-      setGradient(0,0,p.width,p.height,color1,color2)
+      // const color1 = p.color(18,126,190)
+      // const color2 = p.color(255)
+      // setGradient(0,0,p.width,p.height,color1,color2)
+      p.background(bg)
       dusts.forEach((dust) => {
         dust.display()
         dust.move()
@@ -78,33 +95,32 @@ class Tree extends React.Component {
 
       drawTopBox()
       drawBottom()
-      // drawCollisionBox1()
-      // drawCollisionBox2()
-      // drawCollisionBox3()
-      leaves.forEach((leaf) => {
-        leaf.display()
-        leaf.grow()
-        leaf.checkSides()
-        
-        if ((leaf.isFalling) && (!leaf.checkBottomCollision())) {
-          const dist = leaf.location.dist(mouseVector)
-          leaf.move()
-          leaf.applyForce(gravity)
-          leaf.drag()
-          if ((dist < 150)) {
-            leaf.applyForce(pushingForce(leaf).mult(-50))
-          } else {
-            leaf.applyForce(leaf.createWind())
-          }
-        } else if (leaf.checkBottomCollision()) {
-          console.log('collison!')
-          leaf.isFalling = false
-        }
+      drawBranches()
 
-        if (leaf.isDead) {
-          const index = leaves.indexOf(leaf)
-          leaves.splice(index, 1)
-        }
+      leavesTwo.forEach((leaf) => {
+        runLeaf(leaf, mouseVector, leavesTwo)
+        leaf.checkText()
+      })
+      p.image(img, p.windowWidth*0.18, canvasHeight*0.4, 300, 300)
+      p.fill(0)
+      p.textSize(p.windowHeight*0.06)
+      p.textFont('Helvetica')
+      p.text('About Me', p.windowWidth*0.36, canvasHeight*0.4, p.windowWidth*0.36, 500)
+      p.textSize(p.windowHeight*0.025)
+      p.text(
+        'I am a software developer with previous experience in the music and audio industries. My interest in coding began after self-teaching in Processing, a creative Java port. I grew inspired by the ability to be innovative and fun with programming and I have since been on a journey to create new and exciting things with the skills I have learnt. Whilst concatenating my expertise in previous roles, I am looking to work as a software developer in a fast paced, creative environment, where people share ideas and I can learn from others.', 
+        textBoundary[0], 
+        textBoundary[1], 
+        textBoundary[2], 
+        textBoundary[3]
+      )
+
+      // const text = p.frameRate()
+      // p.fill(255)
+      // p.text(text, 500, 500)
+
+      leavesOne.forEach((leaf) => {
+        runLeaf(leaf, mouseVector, leavesOne)
       })
 
 
@@ -117,31 +133,63 @@ class Tree extends React.Component {
         }
       })
 
-      if (leaves.length < leaveCount) {
-        console.log('makin more leaves!')
+      if (leavesOne.length < leaveCount/2) {
+        // console.log('makin more leaves!')
         const leaf = new Leaf(p.random(1)*p.width, p.random(175, 250), 1, 0, 0, 1)
         leaf.calculateAge()
-        leaves.push(leaf)
+        leavesOne.push(leaf)
+      }
+      if (leavesTwo.length < leaveCount/2) {
+        // console.log('makin more leaves!')
+        const leaf = new Leaf(p.random(1)*p.width, p.random(175, 250), 1, 0, 0, 1)
+        leaf.calculateAge()
+        leavesTwo.push(leaf)
+      }
+      // drawBranches()
+    }
+
+    function runLeaf(leaf, mouseVector, array) {
+      leaf.display()
+      leaf.grow()
+      leaf.checkSides()
+      
+      if ((leaf.isFalling) && (!leaf.checkBottomCollision())) {
+        const dist = leaf.location.dist(mouseVector)
+        leaf.move()
+        leaf.applyForce(gravity)
+        leaf.drag()
+        leaf.applyForce(leaf.createWind())
+        // if ((dist < 150)) {
+        //   leaf.applyForce(pushingForce(leaf).mult(-20))
+        // } else {
+        //   leaf.applyForce(leaf.createWind())
+        // }
+      } else if (leaf.checkBottomCollision()) {
+        // console.log('collison!')
+        leaf.isFalling = false
       }
 
+      if (leaf.isDead) {
+        const index = array.indexOf(leaf)
+        array.splice(index, 1)
+      }
     }
 
     p.windowResized = () => {
       p.resizeCanvas(p.windowWidth, canvasHeight)
+      leavesOne = []
+      dusts = []
+      flock = []
+      bugs = []
+      p.setup()
     }
 
-    // p.mousePressed = () => {
-    //   bubbles.forEach((bubble) => {
-    //     bubble.clicked()
-    //   })
-    // }
-
     function pushingForce(leaf) {
-      console.log('pushing leaves!')
+      // console.log('pushing leaves!')
       const mousePosition = p.createVector(p.mouseX, p.mouseY)
       const force = mousePosition.sub(leaf.location)
       let distance = force.mag()
-      distance = p.constrain(distance,5.0,35.0)
+      distance = p.constrain(distance,5.0,13.0)
 
       force.normalize()
       const strength = (0.04 * 20 * 20) / (distance * distance)
@@ -149,15 +197,15 @@ class Tree extends React.Component {
       return force
     }
 
-    function setGradient(x,y,w,h,c1,c2) {
-      p.noFill()
-      for (let i = y; i <= y + h; i++) {
-        let inter = p.map(i, y, y + h, 0, 1)
-        let c = p.lerpColor(c1, c2, inter)
-        p.stroke(c)
-        p.line(x, i, x + w, i)
-      }
-    }
+    // function setGradient(x,y,w,h,c1,c2) {
+    //   p.noFill()
+    //   for (let i = y; i <= y + h; i++) {
+    //     let inter = p.map(i, y, y + h, 0, 1)
+    //     let c = p.lerpColor(c1, c2, inter)
+    //     p.stroke(c)
+    //     p.line(x, i, x + w, i)
+    //   }
+    // }
 
     function randomSpeed(array) {
       return p.random(array[0], array[1])
@@ -183,67 +231,23 @@ class Tree extends React.Component {
     }
 
     function drawTopBox() {
-      p.fill(0, 14, 30)
+      p.fill(0, 15, 30)
       p.beginShape()
       p.vertex(0, 0)
       p.vertex(p.width, 0)
-      p.vertex(p.width, 175)
-      p.vertex(0, 175)
+      p.vertex(p.width, 150)
+      p.vertex(0, 150)
       p.endShape(p.CLOSE)
     }
 
-    function drawCollisionBox1() {
-      p.fill(255, 15, 30)
-      p.rect(0, p.height-60, p.width)
-    }
-    function drawCollisionBox2() {
-      p.fill(255, 15, 30)
-      p.rect(p.width*0.29, p.height-90, p.width*0.42)
-    }
-    function drawCollisionBox3() {
-      p.fill(255, 15, 30)
-      p.rect(p.width*0.33, p.height-118, p.width*0.34)
-    }
-
-    function fractalTrees() {
-      p.stroke(0, 15, 30)
-      p.push()
-      p.translate(p.width*0.07, 0)
-      fractal(100)
-      for (let i = 0; i < 6; i++) {
-        p.translate(p.width*0.14, -100)
-        fractal(100)
-      }
-      p.pop()
-      p.translate(p.width*0.07, 0)
-      fractal(100)
-      for (let i = 0; i < 6; i++) {
-        p.translate(p.width*0.7, -200)
-        fractal(100)
+    function drawBranches() {
+      let branchCount = p.width/5
+      for (let i = -2; i < branchCount; i ++) {
+        p.fill(0, 15, 30)
+        p.quad(i*40, 150, (i*40)+20, 150, (i*40)+120, 250, (i*40)+100, 250)
+        p.quad(i*40, 150, (i*40)-20, 150, (i*40)-120, 250, (i*40)-100, 250)
       }
     }
-
-    function fractal(len) {
-      // angle = p.random(0,p.PI/3)
-      // const angle = p.PI/3
-      
-      p.strokeWeight(8)
-      p.line(0, 0, 0, len)
-      p.translate(0, len)
-      len *= 0.67
-      if (len > 5) {
-        p.push()
-        p.rotate(angle)
-        fractal(len)
-        p.pop()
-        p.push()
-        p.rotate(-angle)
-        fractal(len)
-        p.pop()
-      }
-    }
-
-
 
     
     // --------------------------- CLASSES ---------------------------------------- // 
@@ -310,6 +314,7 @@ class Tree extends React.Component {
         this.outOfBounds = false
         this.color1 = p.color(0, 255, 140)
         this.colorArray = [0, 255, 140]
+        this.colorAlpha = 255
         this.isFalling = false
         this.xoff = p.random(100)
         this.yoff = p.random(100)
@@ -318,6 +323,7 @@ class Tree extends React.Component {
       display() {
         p.push()
         p.noStroke()
+        this.color1.setAlpha(this.colorAlpha)
         p.fill(this.color1)
         p.translate(this.location.x, this.location.y)
         p.rotate(p.PI/4)
@@ -403,6 +409,18 @@ class Tree extends React.Component {
           return true
         } else {
           return false
+        }
+      }
+
+      // const textBoundary = [ p.windowWidth*0.36, canvasHeight*0.45, p.windowWidth*0.5, canvasHeight*0.44]
+
+      checkText() {
+        if (this.location.x > p.windowWidth*0.36 && this.location.y > canvasHeight*0.38
+          && this.location.x < (p.windowWidth*0.36 + p.windowWidth*0.5) && this.location.y < (canvasHeight*0.38 + 290)) 
+          {
+            this.colorAlpha --
+          } else if (this.location.y > (canvasHeight*0.38 + 290)) {
+          this.colorAlpha ++
         }
       }
 

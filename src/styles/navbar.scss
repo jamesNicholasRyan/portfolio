@@ -1,0 +1,34 @@
+.navbarJR{
+  z-index: 3;
+  width: 100%;
+  min-height: 8vh;
+  max-height: 12vh;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(0, 15, 30);
+  transition: all .7s ease-in;
+}
+//IMPORTANT
+.scrolled{
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgb(0, 15, 30);
+}
+
+.navigationJR {
+  width: 100VW;
+  display: flex;
+  // flex-direction: row;
+  justify-content: center;
+  // align-items: center;
+}
+
+.navigationItemJR {
+  color: white;
+  cursor: pointer;
+  font-size: 1vw;
+  margin: 0px 6vw;
+}

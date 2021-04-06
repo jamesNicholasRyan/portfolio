@@ -1,5 +1,13 @@
 import React from 'react'
 import p5 from 'p5'
+import Skills from './Skills'
+
+// "eslintConfig": {
+//   "extends": [
+//     "react-app",
+//     "react-app/jest"
+//   ]
+// },
 
 class Ocean extends React.Component {
   constructor(props) {
@@ -8,19 +16,26 @@ class Ocean extends React.Component {
   }
 
   Ocean = (p) => {
-    
     const canvasHeight = 2000
     const bubbleCount = 30
     const dustCount = 50
+    const fishCount = 50
     let bubbles = []
     let dusts = []
+    let fishes = []
     var canvas
     const dustSpeed = [-0.3, 0.3]
     const bubbleSpeed = [-10, 10]
+    let bg
+
+    p.preload = () => {
+      bg = p.loadImage('https://i.imgur.com/K51YGkp.png')
+    }
 
     p.setup = () => {
+      p.pixelDensity(1)
       canvas = p.createCanvas(p.windowWidth, canvasHeight)
-      canvas.position(0,canvasHeight)
+      canvas.position(0, canvasHeight + p.windowHeight)
       canvas.style('z-index', '-1')
       for (let i = 0; i < bubbleCount; i++) {
         const bubble = new Bubble(p.random(p.windowWidth), p.random(canvasHeight), p.random(1,45), randomSpeed(bubbleSpeed), randomSpeed(bubbleSpeed))
@@ -30,14 +45,24 @@ class Ocean extends React.Component {
         const dust = new Dust(p.random(p.windowWidth), p.random(canvasHeight), p.random(4,7), randomSpeed(dustSpeed), randomSpeed(dustSpeed))
         dusts.push(dust)
       }
+      for (let i = 0; i < fishCount; i++) {
+        const newFish = new Fish(p.random(p.windowWidth), p.random(canvasHeight))
+        fishes.push(newFish)
+      }
 
     }
 
     p.draw = () => {
+      p.background(bg)
       const mouseVector = p.createVector(p.mouseX, p.mouseY)
-      const color1 = p.color(18,126,190)
-      const color2 = p.color(0, 10, 20)
-      setGradient(0,0,p.width,p.height,color1,color2)
+      // const color1 = p.color(18,126,190)
+      // const color2 = p.color(0, 10, 20)
+      fishes.forEach((boid) => {
+        boid.display()
+        boid.move()
+        boid.checkEdges()
+        boid.flock(fishes)
+      })
       bubbles.forEach((bubble) => {
         bubble.display()
         bubble.move()
@@ -84,8 +109,12 @@ class Ocean extends React.Component {
         bubbles.push(bubble)
       }
 
-      drawBottom()
+      // const text = p.frameRate()
+      // p.fill(255)
+      // p.text(text, 500, 1000)
 
+      drawBottom()
+      drawTop()
     }
 
     function volcanoes(x, y) {
@@ -99,6 +128,10 @@ class Ocean extends React.Component {
 
     p.windowResized = () => {
       p.resizeCanvas(p.windowWidth, p.windowHeight)
+      bubbles = []
+      dusts = []
+      fishes = []
+      p.setup()
     }
 
     p.mousePressed = () => {
@@ -117,16 +150,6 @@ class Ocean extends React.Component {
       const strength = (0.04 * 20 * 20) / (distance * distance)
       force.mult(strength)
       return force
-    }
-
-    function setGradient(x,y,w,h,c1,c2) {
-      p.noFill()
-      for (let i = y; i <= y + h; i++) {
-        let inter = p.map(i, y, y + h, 0, 1)
-        let c = p.lerpColor(c1, c2, inter)
-        p.stroke(c)
-        p.line(x, i, x + w, i)
-      }
     }
 
     function randomSpeed(array) {
@@ -154,6 +177,18 @@ class Ocean extends React.Component {
       p.endShape(p.CLOSE)
     }
 
+    function drawTop() {
+      p.fill(0, 15, 30)
+      p.beginShape()
+      p.vertex(0, 0)
+      p.vertex(p.width, 0)
+      p.vertex(p.width, p.height*0.24)
+      p.vertex(p.width*0.8, p.height*0.26)
+      p.vertex(p.width*0.5, p.height*0.25)
+      p.vertex(p.width*0.2, p.height*0.26)
+      p.vertex(0, p.height*0.24)
+      p.endShape(p.CLOSE)
+    }
 
     
     // --------------------------- CLASSES ---------------------------------------- // 
@@ -166,8 +201,8 @@ class Ocean extends React.Component {
         this.isDead = false
         this.lifeSpan = d
         this.outOfBounds = false
-        this.color = p.color(p.random(0,116),p.random(184,188),p.random(200,222))
-        this.color2 = p.color(157,219,234)
+        this.color = p.color(p.random(0,116),p.random(184,188),p.random(200,222), 50)
+        this.color2 = p.color(157,219,234, 100)
       }
 
       display() {
@@ -218,8 +253,8 @@ class Ocean extends React.Component {
           this.isDead = true
         }
         if (this.isDead === true) {
-          this.color = p.color(157,219,255)
-          this.color2 = p.color(157,219,255)
+          this.color = p.color(157,219,255, 150)
+          this.color2 = p.color(157,219,255, 150)
           this.lifeSpan = this.lifeSpan - 3
         } else if (this.isDead === false) {
           this.lifeSpan = this.lifeSpan + 0.03
@@ -303,7 +338,165 @@ class Ocean extends React.Component {
       }
     }
     // ---------------------------------------------------------------------------------------- //
+    class Boid {
+      constructor() {
+        this.location = p.createVector(p.random(p.windowWidth), p.random(canvasHeight-700))
+        this.velocity = p5.Vector.random2D()
+        this.velocity.setMag(p.random(2, 4))
+        this.acceleration = p.createVector()
+        this.maxForce = 0.2
+        this.maxSpeed = 4
+        this.perceptionRadius = 100
+        this.diameter = 5
+        this.color = p.color(70, 200)
+        this.fleeing = false
+      }
 
+      display() {
+        p.strokeWeight(16)
+        p.fill(this.color)
+        p.ellipse(this.location.x, this.location.y, this.diameter)
+      }
+
+      move() {
+        if (this.fleeing) {
+          this.location.add(this.velocity)
+        } else {
+          const oldY = this.velocity.y
+          const newY = p.constrain(oldY, -0.8, 0.8)
+          const newVelocity =  p.createVector(this.velocity.x, newY)
+          this.location.add(newVelocity)
+        }
+        this.velocity.add(this.acceleration)
+        this.velocity.limit(this.maxSpeed)
+        this.acceleration.mult(0)
+      }
+
+      checkEdges() {
+        if (this.location.x > p.width) {
+          this.location.x = 0 
+        } else if (this.location.x < 0) {
+          this.location.x = p.width
+        }
+        if (this.location.y > p.height) {
+          this.location.y = 0 
+        } else if (this.location.y < 0) {
+          this.location.y = p.height
+        }
+      }
+
+      align(boids) {
+        let steering = p.createVector()
+        let total = 0
+        for (let other of boids) {
+          const dist = p.dist(this.location.x, this.location.y, other.location.x, other.location.y)
+          if (other !== this && dist < this.perceptionRadius) {
+            steering.add(other.velocity)
+            total ++
+          }
+        }
+        if (total > 0) {
+          steering.div(total)
+          steering.setMag(this.maxSpeed)
+          steering.sub(this.velocity)
+          steering.limit(this.maxForce)
+        }
+        return steering
+      }
+
+      cohesion(boids) {
+        let steering = p.createVector()
+        let total = 0
+        for (let other of boids) {
+          const dist = p.dist(this.location.x, this.location.y, other.location.x, other.location.y)
+          if (other !== this && dist < this.perceptionRadius) {
+            steering.add(other.location)
+            total ++
+          }
+        }
+        if (total > 0) {
+          steering.div(total)
+          steering.sub(this.location)
+          steering.setMag(this.maxSpeed)
+          steering.sub(this.velocity)
+          steering.limit(this.maxForce)
+        }
+        return steering
+      }
+
+      separation(boids) {
+        let perceptionRadius = 100
+        let steering = p.createVector()
+        let total = 0
+        for (let other of boids) {
+          const dist = p.dist(this.location.x, this.location.y, other.location.x, other.location.y)
+          if (other !== this && dist < perceptionRadius) {
+            let diff = p5.Vector.sub(this.location, other.location)
+            diff.div(dist)
+            steering.add(diff)
+            total ++
+          }
+        }
+        if (total > 0) {
+          steering.div(total)
+          steering.setMag(this.maxSpeed)
+          steering.sub(this.velocity)
+          steering.limit(0.12)
+        }
+        return steering
+      }
+
+      avoid() {
+        const mouseVector = p.createVector(p.mouseX, p.mouseY)
+        let perceptionRadius = 200
+        let steering = p.createVector()
+        const dist = p.dist(this.location.x, this.location.y, p.mouseX, p.mouseY)
+        if (dist < perceptionRadius) {
+          // console.log('fleeing')
+          this.fleeing = true
+          let diff = p5.Vector.sub(this.location, mouseVector)
+          diff.div(dist)
+          steering.add(diff)
+          steering.setMag(this.maxSpeed*4)
+          steering.sub(this.velocity)
+          steering.limit(10)
+        } else {
+          this.fleeing = false
+        }
+        return steering
+      }
+
+      flock(boids) {
+        let avoid = this.avoid()
+        let alignment = this.align(boids)
+        let cohesion = this.cohesion(boids)
+        let separation = this.separation(boids)
+        if (this.fleeing) {
+          this.acceleration.add(avoid)
+        } else {
+          this.acceleration.add(separation)
+          this.acceleration.add(alignment)
+          this.acceleration.add(cohesion)
+        }
+      }
+    }
+    // -------------------------------------------- FISH ----------------------------------------------------------- //
+    class Fish extends Boid {
+      constructor() {
+        super()
+        this.location = p.createVector(p.random(p.windowWidth), p.random(400, canvasHeight-700))
+        this.maxForce = 0.1
+        this.maxSpeed = 3
+        this.perceptionRadius = 200
+        this.diameter = 10
+        this.color = p.color(0)
+      }
+
+      display() {
+        p.fill(0, 20, 40)
+        p.ellipse(this.location.x, this.location.y, 10, 5)
+      }
+    }
 
     volcanoes(p.windowWidth/5, canvasHeight-100)
     volcanoes(p.windowWidth*0.8, canvasHeight-100)
