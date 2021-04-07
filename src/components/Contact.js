@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 
+import linkedIn from '../images/linkedin.png'
+import gitHub from '../images/GitHub.png'
+
 export default function Contact() {
   const [success, updateSuccess] = useState(false)
   const [formData, updateFormData] = useState({
@@ -41,16 +44,16 @@ export default function Contact() {
 
   return <div 
     id='contact'
-    className='contactSection'
+    className='contactSection columns'
     style={{
       top: contactHeight
     }}
     >
-    <div className='skillsTitle'>
-      Contact Me
-      <form onSubmit={handleSubmit}>
+    <div className='column is-centered'>
+      <div className='skillsTitle'>Contact Me</div>
+      <form onSubmit={handleSubmit} className='column is-three-fifths contactForm'>
         <div className="field">
-          <label className="label">Name</label>
+          <label className="label whiteText">Name</label>
           <div className="control">
             <input 
               className="input" 
@@ -65,12 +68,12 @@ export default function Contact() {
         </div>
 
         <div className="field">
-          <label className="label">Email</label>
-          <div className="control has-icons-left has-icons-right">
+          <label className="label whiteText">Email</label>
+          <div className="control has-icons-right">
             <input 
               className="input" 
               type="email" 
-              placeholder="Email input" 
+              placeholder="Your email..." 
               value={formData.email}
               onChange={handleChange}
               name={'email'}
@@ -87,7 +90,7 @@ export default function Contact() {
         </div>
 
         <div className="field">
-          <label className="label">Message</label>
+          <label className="label whiteText">Message</label>
           <div className="control">
             <textarea 
               className="textarea" 
@@ -105,6 +108,20 @@ export default function Contact() {
         }
       </form>
     </div>
+
+    <div className='column whiteText'>
+      <div className='skillsTitle'>About this website</div>
+      <div className='text-20'>
+        <p>This website’s interactive background was created by me, using the JavaScript library <a className='readmeLink' href='https://p5js.org/' target="_blank" rel="noreferrer">p5.js</a>.</p>
+        <p>I utilised <a className='readmeLink text-20' href='https://en.wikipedia.org/wiki/Boids' target="_blank" rel="noreferrer">Craig Reynolds</a> flocking behaviour rules to simulate fish, birds and bugs.</p>
+        <p>have a go at popping those bubbles!</p>
+      </div>
+      <div className='text-20 myLinks'>
+        {/* <p>My Links:</p> */}
+        <p className='text-20'><img className='contactIcon' src={linkedIn} alt=''></img><a className='readmeLink' href='https://www.linkedin.com/in/james-n-ryan/' target="_blank" rel="noreferrer">LinkedIn</a></p>
+        <p className='text-20'><img className='contactIcon' src={gitHub} alt=''></img><a className='readmeLink' href='https://github.com/jamesNicholasRyan' target="_blank" rel="noreferrer">GitHub</a></p>
+        <p>j.n.ryan@hotmail.co.uk</p>
+      </div>
+    </div>
   </div>
-  
 }
