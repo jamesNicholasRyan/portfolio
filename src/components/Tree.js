@@ -105,35 +105,35 @@ class Tree extends React.Component {
         runLeaf(leaf, mouseVector, leavesTwo)
         leaf.checkText()
       })
-      if (p.windowWidth > 700) {
-        p.image(img, p.windowWidth*0.18, canvasHeight*0.4, 300, 300)
-        p.fill(0)
-        p.textSize(p.windowHeight*0.06)
-        p.textFont('Helvetica')
-        p.text('About Me', p.windowWidth*0.36, canvasHeight*0.4, p.windowWidth*0.36, 600)
-        p.textSize(p.windowHeight*0.025)
-        p.text(
-          'I am a software developer with previous experience in the music and audio industries. My interest in coding began after self-teaching in Processing, a creative Java port. I grew inspired by the ability to be innovative and fun with programming and I have since been on a journey to create new and exciting things with the skills I have learnt. Whilst concatenating my expertise in previous roles, I am looking to work as a software developer in a fast paced, creative environment, where people share ideas and I can learn from others.', 
-          textBoundary[0], 
-          textBoundary[1], 
-          textBoundary[2], 
-          textBoundary[3]
-        )
-      } else {
-        p.image(img, p.windowWidth*0.11, canvasHeight*0.6, 300, 300)
-        p.fill(0)
-        p.textSize(p.windowHeight*0.06)
-        p.textFont('Helvetica')
-        p.text('About Me', p.windowWidth*0.11, canvasHeight*0.3, 300, 600)
-        p.textSize(p.windowHeight*0.025)
-        p.text(
-          'I am a software developer with previous experience in the music and audio industries. My interest in coding began after self-teaching in Processing, a creative Java port. I grew inspired by the ability to be innovative and fun with programming and I have since been on a journey to create new and exciting things with the skills I have learnt. Whilst concatenating my expertise in previous roles, I am looking to work as a software developer in a fast paced, creative environment, where people share ideas and I can learn from others.', 
-          p.windowWidth*0.11, 
-          canvasHeight*0.33, 
-          p.windowWidth*0.8,600
-        )
-      }
-
+      
+      // if (p.windowWidth > 700) {
+      //   p.image(img, p.windowWidth*0.18, canvasHeight*0.4, 300, 300)
+      //   p.fill(0)
+      //   p.textSize(p.windowHeight*0.06)
+      //   p.textFont('Helvetica')
+      //   p.text('About Me', p.windowWidth*0.36, canvasHeight*0.4, p.windowWidth*0.36, 600)
+      //   p.textSize(p.windowHeight*0.025)
+      //   p.text(
+      //     'I am a software developer with previous experience in the music and audio industries. My interest in coding began after self-teaching in Processing, a creative Java port. I grew inspired by the ability to be innovative and fun with programming and I have since been on a journey to create new and exciting things with the skills I have learnt. Whilst concatenating my expertise in previous roles, I am looking to work as a software developer in a fast paced, creative environment, where people share ideas and I can learn from others.', 
+      //     textBoundary[0], 
+      //     textBoundary[1], 
+      //     textBoundary[2], 
+      //     textBoundary[3]
+      //   )
+      // } else {
+      //   p.image(img, p.windowWidth*0.11, canvasHeight*0.6, 300, 300)
+      //   p.fill(0)
+      //   p.textSize(p.windowHeight*0.06)
+      //   p.textFont('Helvetica')
+      //   p.text('About Me', p.windowWidth*0.11, canvasHeight*0.3, 300, 600)
+      //   p.textSize(p.windowHeight*0.025)
+      //   p.text(
+      //     'I am a software developer with previous experience in the music and audio industries. My interest in coding began after self-teaching in Processing, a creative Java port. I grew inspired by the ability to be innovative and fun with programming and I have since been on a journey to create new and exciting things with the skills I have learnt. Whilst concatenating my expertise in previous roles, I am looking to work as a software developer in a fast paced, creative environment, where people share ideas and I can learn from others.', 
+      //     p.windowWidth*0.11, 
+      //     canvasHeight*0.33, 
+      //     p.windowWidth*0.8,600
+      //   )
+      // }
 
       // const text = p.frameRate()
       // p.fill(255)
@@ -141,6 +141,7 @@ class Tree extends React.Component {
 
       leavesOne.forEach((leaf) => {
         runLeaf(leaf, mouseVector, leavesOne)
+        
       })
 
 
