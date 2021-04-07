@@ -1,27 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../styles/navbar.scss'
 import { Link } from 'react-scroll'
 
 export default function Navbar() {
+  const [clicked, toggleClick] = useState('')
+
+  const itemsObject = {'Home': 0, 'About': 0, 'Skills': -300, 'Work': -300, 'Contact': -300}
+
+  function toggleClicked(event) {
+    const itemName = event.target.innerHTML
+    toggleClick(itemName)
+  }
+
   return <div>
     <header className='navbarJR scrolled'>
-      <nav className="navigationJR">
-        <div className='whiteText navigationItemJR'>
-          <Link activeClass='active' to='home' spy={true} smooth={true}>Home</Link>
-        </div>
-        <div className='whiteText navigationItemJR'>
-          <Link activeClass='active' to='about' spy={true} smooth={true}>About</Link>
-        </div>
-        <div className='whiteText navigationItemJR'>
-          <Link activeClass='active' to='skills' spy={true} smooth={true} offset={-300}>Skills</Link>
-        </div>
-        <div className='whiteText navigationItemJR'>
-          <Link activeClass='active' to='work' spy={true} smooth={true} offset={-300}>Work</Link>
-        </div>
-        <div className='whiteText navigationItemJR'>
-          <Link activeClass='active' to='contact' spy={true} smooth={true} offset={-300}>Contact</Link>
-        </div>
-      </nav>
+      <div className="navigationJR">
+        {Object.keys(itemsObject).map((key, index) => {
+          return  <div id={index} className='navigationItemJR'>
+              <Link 
+                id='link' 
+                className={`${clicked === key ? 'clicked' : ''}`}
+                activeClass='active' 
+                to={key} 
+                spy={true} 
+                smooth={true}
+                offset={itemsObject[key]}
+                onClick={(event) => toggleClicked(event)}
+                >{key}
+              </Link>
+            </div>
+          }
+        )}
+      </div>
     </header>
   </div>
 }

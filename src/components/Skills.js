@@ -27,6 +27,7 @@ export default function Sklls() {
   calculateSize()
 
   return <div 
+        id='Skills'
         style={{
           position: 'absolute', 
           top: `${skillsHeight}px`,
@@ -34,7 +35,6 @@ export default function Sklls() {
         >
       <div className='skillsTitle'>My Skills</div>
       <div
-        id='skills'
         className='skillsContainer' 
         // style={{
         //   position: 'absolute', 

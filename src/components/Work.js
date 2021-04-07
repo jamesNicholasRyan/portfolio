@@ -40,7 +40,7 @@ export default function Work() {
   calculateSize()
 
   return <div 
-      id='work'
+      id='Work'
       className='sliderContainer'
       style={{
         color: 'white',

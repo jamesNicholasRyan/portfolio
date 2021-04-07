@@ -34,7 +34,7 @@ body {
 }
 
 .whiteText {
-  color: white !important;
+  color: white;
 }
 
 .darkText {
@@ -208,7 +208,7 @@ body {
 
 a {
   text-decoration: none;
-  color: white !important;
+  color: white;
 }
 
 .readmeLink {

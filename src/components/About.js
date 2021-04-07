@@ -10,7 +10,7 @@ export default function About() {
   calculateSize()
 
   return <div 
-    id='about' 
+    id='About' 
     className='section aboutSection columns is-centered'
     style={{
       position: 'absolute', 

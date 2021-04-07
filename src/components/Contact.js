@@ -43,7 +43,7 @@ export default function Contact() {
   }
 
   return <div 
-    id='contact'
+    id='Contact'
     className='contactSection columns'
     style={{
       top: contactHeight
