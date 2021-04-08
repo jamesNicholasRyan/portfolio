@@ -92,7 +92,7 @@ class Home extends React.Component {
         p.textFont(consolas)
         p.textSize(characterWidth)
         p.textAlign(p.CENTER, p.CENTER)
-        this.color.setAlpha(150)
+        this.color.setAlpha(200)
         p.fill(this.color)
         p.text(this.letter, this.location.x, this.location.y, characterWidth, characterHeight)
       }
