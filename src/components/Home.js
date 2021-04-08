@@ -1,6 +1,7 @@
 import React from 'react'
 import p5 from 'p5'
 import inconsolata from '../fonts/Inconsolata-Regular.ttf'
+import { forceLineOne, forceLineTwo, forceLineThree, moveLineOne, moveLineTwo, moveLineThree, moveLineFour } from './letterData' 
 
 class Home extends React.Component {
   constructor(props) {
@@ -10,27 +11,14 @@ class Home extends React.Component {
 
   Home = (p) => {
     var canvas
-    const characterWidth = 40
-    const characterHeight = 50
-    const yellowOne = p.color(255, 230, 109)
-    const yellowTwo = p.color(255, 215, 24)
-    const cyan = p.color(0, 232, 198)
-    const hotPink = p.color(255, 0, 170)
-    const grey = p.color(213, 206, 217)
-    const pink = p.color(218, 112, 182)
-    const backgroundLineOne = [ {'a': yellowOne}, {'p': yellowOne}, {'p': yellowOne}, {'l': yellowOne}, {'y': yellowOne}, {'F': yellowOne}, {'o': yellowOne}, {'r': yellowOne}, {'c': yellowOne}, {'e': yellowOne}, 
-      {'(': yellowTwo}, 
-      {'f': cyan}, {'o': cyan}, {'r': cyan}, {'c': cyan}, {'e': cyan},
-      {')': yellowTwo},
-      {' ': yellowOne}, {'{': yellowTwo}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne},     
-    ]
-    const backgroundLineTwo = [
-      {' ': yellowOne}, {' ': yellowOne}, {'t': hotPink}, {'h': hotPink}, {'i': hotPink}, {'s': hotPink}, {'.': grey}, {'a': cyan}, {'c': cyan}, {'c': cyan}, {'e': cyan}, {'l': cyan}, {'e': cyan}, {'r': cyan}, {'a': cyan},
-      {'t': cyan}, {'i': cyan}, {'o': cyan}, {'n': cyan}, {'.': grey}, {'a': yellowOne}, {'d': yellowOne}, {'d': yellowOne}, {'(': pink}, {'f': cyan}, {'o': cyan}, {'r': cyan}, {'c': cyan}, {'e': cyan}, {')': pink},
-    ]
-    const backgroundLineThree = [
-      {'}': yellowTwo}
-    ]
+    // const characterWidth = 40
+    // const characterHeight = 50
+    const characterWidth = p.windowWidth*0.016
+    const characterHeight = characterWidth + (characterWidth/4)
+
+    const forceText = [forceLineOne, forceLineTwo, forceLineThree]
+    const moveText = [moveLineOne, moveLineTwo, moveLineThree, moveLineFour]
+
     const letters = []
     let consolas =''
 
@@ -39,37 +27,15 @@ class Home extends React.Component {
     }
     
     p.setup = () => {
-      // consolas = p.loadFont(inconsolata)
       p.pixelDensity(1)
       console.log('setup!')
       canvas = p.createCanvas(p.windowWidth, p.windowHeight)
       canvas.position(0, 0)
       canvas.style('z-index', '-1')
 
-      let counter = 0
-      backgroundLineOne.forEach((character) => {
-        Object.keys(character).map((key) => {
-          const newCharacter = new Letter(p.windowWidth * 0.6 + counter, 300, key, character[key], characterWidth, characterHeight)
-          letters.push(newCharacter)
-        })
-        counter = counter + characterWidth*0.6
-      })
-      counter = 0
-      backgroundLineTwo.forEach((character) => {
-        Object.keys(character).map((key) => {
-          const newCharacter = new Letter(p.windowWidth * 0.6 + counter, 300+characterHeight, key, character[key], characterWidth, characterHeight)
-          letters.push(newCharacter)
-        })
-        counter = counter + characterWidth*0.6
-      })
-      counter = 0
-      backgroundLineThree.forEach((character) => {
-        Object.keys(character).map((key) => {
-          const newCharacter = new Letter(p.windowWidth * 0.6 + counter, 300+characterHeight*2, key, character[key], characterWidth, characterHeight)
-          letters.push(newCharacter)
-        })
-        counter = counter + characterWidth*0.6
-      })
+      setupBackgroundCode(forceText, p.windowWidth * 0.6, p.windowHeight*0.18)
+      setupBackgroundCode(moveText, p.windowWidth * 0.6, p.windowHeight*0.37)
+      setupBackgroundCode(forceText, p.windowWidth * 0.6, p.windowHeight*0.58)
 
     }
 
@@ -90,13 +56,30 @@ class Home extends React.Component {
       p.setup()
     }
 
+    function setupBackgroundCode(block, X, Y) {
+      let counter2 = 0
+      block.forEach((line) => {
+        let counter = 0
+        line.forEach((word) => {
+          Object.keys(word).forEach((key) => {
+            for (let i = 0; i < key.length; i++) {
+              const newCharacter = new Letter(X + counter, Y+counter2, key[i], word[key], characterWidth, characterHeight)
+              letters.push(newCharacter)
+              counter = counter + characterWidth*0.5
+            }
+          })
+        })
+        counter2 = counter2 + characterHeight
+      })
+    }
+
     class Letter {
       constructor(X, Y, letter, color, charaterWidth, characterHeight) {
         this.location = p.createVector(X, Y)
         this.acceleration = p.createVector(0, 0)
         this.velocity = p.createVector(0, 0)
         this.letter = letter
-        this.color = color
+        this.color = p.color(color[0], color[1], color[2])
         this.charaterWidth = charaterWidth
         this.characterHeight = characterHeight
       }
@@ -109,7 +92,7 @@ class Home extends React.Component {
         p.textFont(consolas)
         p.textSize(characterWidth)
         p.textAlign(p.CENTER, p.CENTER)
-        this.color.setAlpha(100)
+        this.color.setAlpha(150)
         p.fill(this.color)
         p.text(this.letter, this.location.x, this.location.y, characterWidth, characterHeight)
       }
@@ -125,7 +108,7 @@ class Home extends React.Component {
       }
 
       drag() {
-        const dragCeof = 0.03
+        const dragCeof = 0.01
         const speed = this.velocity.mag()
         const dragMagnitude = dragCeof * speed * speed
         const drag = this.velocity.mult(-1)
@@ -143,7 +126,7 @@ class Home extends React.Component {
           let diff = p5.Vector.sub(this.location, mouseVector)
           diff.div(dist)
           steering.add(diff)
-          steering.setMag(0.5)
+          steering.setMag(0.05)
           steering.sub(this.velocity)
           steering.limit(10)
         }
