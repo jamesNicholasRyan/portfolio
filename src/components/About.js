@@ -21,7 +21,7 @@ export default function About() {
       <div className='columns is-centered is-multiline is-half-mobile'>
         <div className='columns column is-centered is-four-fifths'>
           <div className='column image is-one-third bottom'>
-            <img src='https://media-exp1.licdn.com/dms/image/C4D03AQEhHTR0GDO0aQ/profile-displayphoto-shrink_800_800/0/1555516099921?e=1622678400&v=beta&t=q5f2tzzs9-oHZzUOuSv3r46XhbAgp1E_4jZ--oHb76s'></img>
+            <img className='imageJR' src='https://media-exp1.licdn.com/dms/image/C4D03AQEhHTR0GDO0aQ/profile-displayphoto-shrink_800_800/0/1555516099921?e=1622678400&v=beta&t=q5f2tzzs9-oHZzUOuSv3r46XhbAgp1E_4jZ--oHb76s'></img>
           </div>
           <div className='column'>
             <div className='darkText block is-size-3 is-size-5-touch has-text-left has-text-weight-semibold bottom'>

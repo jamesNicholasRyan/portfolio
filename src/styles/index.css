@@ -176,7 +176,7 @@ body {
   flex-direction: column;
   justify-content: flex-end !important;
   padding-left: 1vw;
-  padding-right: 5vw;
+  padding-right: 2vw !important;
   text-align: left;
   font-size: 1vw;
   flex-grow: 1;
@@ -242,10 +242,15 @@ a {
 }
 
 .nextButton {
-
+  right: 0% !important;
 }
 
 .previousButton {
+  left: 0% !important;
+}
+
+polygon {
+  fill: white !important;
 }
 
 .slider {
