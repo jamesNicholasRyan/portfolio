@@ -99,7 +99,7 @@ class Tree extends React.Component {
 
       drawTopBox()
       drawBottom()
-      drawBranches()
+      // drawBranches()
 
       leavesTwo.forEach((leaf) => {
         runLeaf(leaf, mouseVector, leavesTwo)
