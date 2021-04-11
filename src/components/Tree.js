@@ -99,7 +99,7 @@ class Tree extends React.Component {
 
       drawTopBox()
       drawBottom()
-      drawBranches()
+      // drawBranches()
 
       leavesTwo.forEach((leaf) => {
         runLeaf(leaf, mouseVector, leavesTwo)
@@ -173,6 +173,7 @@ class Tree extends React.Component {
       leaf.display()
       leaf.grow()
       leaf.checkSides()
+      leaf.fadeIn()
       
       if ((leaf.isFalling) && (!leaf.checkBottomCollision())) {
         const dist = leaf.location.dist(mouseVector)
@@ -217,16 +218,6 @@ class Tree extends React.Component {
       force.mult(strength)
       return force
     }
-
-    // function setGradient(x,y,w,h,c1,c2) {
-    //   p.noFill()
-    //   for (let i = y; i <= y + h; i++) {
-    //     let inter = p.map(i, y, y + h, 0, 1)
-    //     let c = p.lerpColor(c1, c2, inter)
-    //     p.stroke(c)
-    //     p.line(x, i, x + w, i)
-    //   }
-    // }
 
     function randomSpeed(array) {
       return p.random(array[0], array[1])
@@ -335,7 +326,7 @@ class Tree extends React.Component {
         this.outOfBounds = false
         this.color1 = p.color(0, 255, 140)
         this.colorArray = [0, 255, 140]
-        this.colorAlpha = 255
+        this.colorAlpha = 0
         this.isFalling = false
         this.xoff = p.random(100)
         this.yoff = p.random(100)
@@ -441,6 +432,14 @@ class Tree extends React.Component {
           {
             this.colorAlpha --
           } else if (this.location.y > (canvasHeight*0.38 + 290)) {
+          this.colorAlpha ++
+        }
+      }
+
+      fadeIn() {
+        if (this.location.y < canvasHeight*0.132) {
+          this.colorAlpha --
+        } else {
           this.colorAlpha ++
         }
       }

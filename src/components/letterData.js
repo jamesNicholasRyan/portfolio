@@ -4,17 +4,24 @@ const cyan = [0, 232, 198]
 const hotPink = [255, 0, 170]
 const grey = [213, 206, 217]
 const pink = [218, 112, 182]
+const orange = [243, 156, 18]
+const lightBlue = [109, 206, 250]
 
-const forceLineOne = [ {'a': yellowOne}, {'p': yellowOne}, {'p': yellowOne}, {'l': yellowOne}, {'y': yellowOne}, {'F': yellowOne}, {'o': yellowOne}, {'r': yellowOne}, {'c': yellowOne}, {'e': yellowOne}, 
-  {'(': yellowTwo}, 
-  {'f': cyan}, {'o': cyan}, {'r': cyan}, {'c': cyan}, {'e': cyan},
-  {')': yellowTwo},
-  {' ': yellowOne}, {'{': yellowTwo}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne},     
+// const forceLineOne = [ {'a': yellowOne}, {'p': yellowOne}, {'p': yellowOne}, {'l': yellowOne}, {'y': yellowOne}, {'F': yellowOne}, {'o': yellowOne}, {'r': yellowOne}, {'c': yellowOne}, {'e': yellowOne}, 
+//   {'(': yellowTwo}, 
+//   {'f': cyan}, {'o': cyan}, {'r': cyan}, {'c': cyan}, {'e': cyan},
+//   {')': yellowTwo},
+//   {' ': yellowOne}, {'{': yellowTwo}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne}, {' ': yellowOne},     
+// ]
+
+const forceLineOne = [ {'apply': yellowOne}, {'Force': yellowOne}, 
+  {'(': yellowTwo}, {'force': cyan}, {')': yellowTwo},
+  {' ': yellowOne}, {'{': yellowTwo}, 
 ]
 
 const forceLineTwo = [
-  {' ': yellowOne}, {' ': yellowOne}, {'t': hotPink}, {'h': hotPink}, {'i': hotPink}, {'s': hotPink}, {'.': grey}, {'a': cyan}, {'c': cyan}, {'c': cyan}, {'e': cyan}, {'l': cyan}, {'e': cyan}, {'r': cyan}, {'a': cyan},
-  {'t': cyan}, {'i': cyan}, {'o': cyan}, {'n': cyan}, {'.': grey}, {'a': yellowOne}, {'d': yellowOne}, {'d': yellowOne}, {'(': pink}, {'f': cyan}, {'o': cyan}, {'r': cyan}, {'c': cyan}, {'e': cyan}, {')': pink},
+  {' ': yellowOne}, {' ': yellowOne}, {'this': hotPink}, {'.': grey}, {'acceleration': cyan}, 
+  {'.': grey}, {'add': yellowOne}, {'(': pink}, {'force': cyan}, {')': pink},
 ]
 
 const forceLineThree = [
@@ -39,6 +46,25 @@ const moveLineFour = [
   {'}': yellowTwo}
 ]
 
+const arrayLineOne = [
+  {'letters' : orange}, {'.': grey}, {'forEach': yellowOne}, {'(': yellowTwo}, {'(': pink}, {'character': cyan}, {')': pink}, {' ': grey},
+  {'=': hotPink}, {'>': hotPink}, {' ': grey}, {'{': pink}
+]
+
+const arrayLineTwo = [
+  {' ': grey}, {' ': grey}, {'character': orange}, {'.': grey}, {'applyForce': yellowOne}, {'(': lightBlue}, {'mouse': cyan},
+  {')': lightBlue}
+]
+
+const arrayLineThree = [
+  {' ': grey}, {' ': grey}, {'character': orange}, {'.': grey},
+  {'move': yellowOne}, {'()': lightBlue}
+]
+
+const arrayLineFour = [
+  {'}': pink}, {')': yellowTwo}
+]
+
 
 export {
   forceLineOne,
@@ -47,5 +73,9 @@ export {
   moveLineOne,
   moveLineTwo,
   moveLineThree,
-  moveLineFour
+  moveLineFour,
+  arrayLineOne,
+  arrayLineTwo,
+  arrayLineThree,
+  arrayLineFour
 }
