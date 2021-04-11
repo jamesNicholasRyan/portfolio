@@ -1,7 +1,7 @@
 import React from 'react'
 import p5 from 'p5'
 import inconsolata from '../fonts/Inconsolata-Regular.ttf'
-import { forceLineOne, forceLineTwo, forceLineThree, moveLineOne, moveLineTwo, moveLineThree, moveLineFour } from './letterData' 
+import { forceLineOne, forceLineTwo, forceLineThree, moveLineOne, moveLineTwo, moveLineThree, moveLineFour, arrayLineOne, arrayLineTwo, arrayLineThree, arrayLineFour } from './letterData' 
 
 class Home extends React.Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class Home extends React.Component {
 
     const forceText = [forceLineOne, forceLineTwo, forceLineThree]
     const moveText = [moveLineOne, moveLineTwo, moveLineThree, moveLineFour]
+    const arrayText = [arrayLineOne, arrayLineTwo, arrayLineThree, arrayLineFour]
 
     const letters = []
     let consolas =''
@@ -35,7 +36,7 @@ class Home extends React.Component {
 
       setupBackgroundCode(forceText, p.windowWidth * 0.6, p.windowHeight*0.18)
       setupBackgroundCode(moveText, p.windowWidth * 0.6, p.windowHeight*0.37)
-      setupBackgroundCode(forceText, p.windowWidth * 0.6, p.windowHeight*0.58)
+      setupBackgroundCode(arrayText, p.windowWidth * 0.6, p.windowHeight*0.58)
 
     }
 
@@ -49,6 +50,7 @@ class Home extends React.Component {
         character.avoid()
         character.flock()
       })
+
     }
 
     p.windowResized = () => {

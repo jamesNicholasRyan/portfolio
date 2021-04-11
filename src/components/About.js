@@ -39,7 +39,7 @@ export default function About() {
             </div>
           </div>
           <div className='column'>
-            <iframe className='is-fullwidth' width="560" height="315" src="https://www.youtube.com/embed/L7sCWjctnLc" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+            <iframe className='is-fullwidth' width="100%" height="100%" src="https://www.youtube.com/embed/L7sCWjctnLc" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
           </div>
         </div>
       </div>
