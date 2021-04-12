@@ -88,15 +88,21 @@ body {
 }
 
 .text-20 {
-  font-size: 2vh;
+  font-size: 2vw;
 }
 
 .text-30 {
-  font-size: 4vh;
+  font-size: 3vw;
 }
 
 .bottom {
   margin-top: auto;
+}
+
+.item {
+  display: flex !important;
+  flex-direction:column;
+  justify-content:space-between
 }
 
 .skillsContainer {
@@ -178,7 +184,6 @@ body {
   padding-left: 1vw;
   padding-right: 2vw !important;
   text-align: left;
-  font-size: 1vw;
   flex-grow: 1;
 }
 
@@ -199,9 +204,7 @@ body {
 }
 
 .projTitle {
-  color:white;
-  font-size: 2.5vw;
-  padding: 0px;
+  color:white !important;
   margin: 0px 0px 1vw 0px;
 }
 
@@ -211,6 +214,7 @@ a {
 }
 
 .readmeLink {
+  /* margin: 2px; */
   color: rgb(0,150,255) !important
 }
 
@@ -233,11 +237,11 @@ a {
 }
 
 .myLinks {
-  margin-top: 20vh;
+  margin-top: 30px;
 }
 
 .contactIcon {
-  width: 20px;
+  width: 40px;
   margin-right: 10px;
 }
 
@@ -254,11 +258,11 @@ polygon {
 }
 
 .slider {
-  height: 600px !important;
+  height: 700px !important;
   width: 110% !important;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 768px) {
   .titleContainer {
     justify-content: flex-start;
   }
@@ -285,6 +289,9 @@ polygon {
   .projectImage {
     width: 50vw;
   }
+  .imageJR {
+    height: 25vh;
+  }
   .slideSectionRight, .slideSectionLeft { 
     width: 70%;
     height: -20px;
@@ -298,6 +305,9 @@ polygon {
   }
   .previousButton {
     left: 10%;
+  }
+  .slider {
+    height: 700px !important;
   }
 }
 
