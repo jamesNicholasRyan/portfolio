@@ -35,17 +35,13 @@ export default function Sklls() {
         >
       <div className='skillsTitle'>My Skills</div>
       <div
-        className='skillsContainer' 
-        // style={{
-        //   position: 'absolute', 
-        //   top: `${skillsHeight}px`,
-        // }}
+        className='skillsContainer'
       >
       {iconArray.map((icon, index) => {
         return <div key={index}>
           <div className='iconContainer'>
             <img src={icon} alt={icon} className='skillIcon iconHover'></img>
-            <p style={ { position: 'absolute' } } className='iconString text-30'>{iconString[index]}</p>
+            <p style={ { position: 'absolute' } } className='iconString has-text is-size-1-desktop is-size-5-touch'>{iconString[index]}</p>
           </div>
         </div>
       })}
