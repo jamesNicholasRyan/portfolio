@@ -56,15 +56,15 @@ export default function Work() {
       <Slider className='slider'>
         {slides.map((slide, index) => {
           return <div key={index} className='slide slider-content columns is-centered'>
-            <a className='column is-one-half slideSectionLeft' href={slide.siteLink} target="_blank" rel="noreferrer">
-              <h2 className='title is-1  projTitle has-text-left block is-size-3-touch'>{slide.title}</h2>
-              <div className='projectImage imageJR'>
-                <img className='imageJR' src={slide.image} alt={slide.image}></img>
-              </div>
-            </a>
+            <div className='column is-one-half slideSectionLeft'>
+                <h2 className='title is-1 projTitle has-text-left is-size-3-touch center'>{slide.title}</h2>
+                <div className='readmeLink block is-size-5 has-text-weight-bold is-size-7-touch'>Tech used: {slide.tech}</div>
+                <div className='projectImage imageJR'>
+                  <img className='imageJR' src={slide.image} alt={slide.image}></img>
+                </div>
+            </div>
 
             <div className='column slideSectionRight'>
-              <div className='readmeLink block is-size-5 has-text-weight-bold is-size-7-touch'>Tech used: {slide.tech}</div>
               <div className='whiteText block is-size-4 is-size-7-touch'>{slide.description}</div>
               <a className='readmeLink block is-size-5 is-size-7-touch' href={slide.readme} target="_blank" rel="noreferrer">Link to readme</a>
               <a className='readmeLink block is-size-5 is-size-7-touch' href={slide.siteLink} target="_blank" rel="noreferrer">Link to site</a>
