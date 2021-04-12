@@ -41,7 +41,7 @@ export default function Sklls() {
         return <div key={index}>
           <div className='iconContainer'>
             <img src={icon} alt={icon} className='skillIcon iconHover'></img>
-            <p style={ { position: 'absolute' } } className='iconString has-text is-size-1-desktop is-size-5-touch'>{iconString[index]}</p>
+            <p style={ { position: 'absolute' } } className='iconString has-text is-size-3-desktop is-size-5-touch'>{iconString[index]}</p>
           </div>
         </div>
       })}
