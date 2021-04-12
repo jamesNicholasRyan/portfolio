@@ -43,19 +43,17 @@ class Tree extends React.Component {
       canvas = p.createCanvas(p.windowWidth, canvasHeight)
       canvas.position(0,p.windowHeight)
       canvas.style('z-index', '-1')
+      const xPosition = p.random(0, p.windowWidth)
+      const yPosition = p.random(0, 50)
       // const color1 = p.color(18,126,190)
       // const color2 = p.color(255)
       // setGradient(0,0,p.width,p.height,color1,color2)
       for (let i = 0; i < leaveCount/2; i++) {
-        const xPosition = p.random(0, p.windowWidth)
-        const yPosition = p.random(150, 250)
         const leaf = new Leaf(Math.ceil(xPosition/20)*20, Math.ceil(yPosition/20)*20, 1, 0, 0, p.random(1,385))
         leaf.calculateAge()
         leavesOne.push(leaf)
       }
       for (let i = 0; i < leaveCount/2; i++) {
-        const xPosition = p.random(0, p.windowWidth)
-        const yPosition = p.random(150, 250)
         const leaf = new Leaf(Math.ceil(xPosition/20)*20, Math.ceil(yPosition/20)*20, 1, 0, 0, p.random(1,385))
         leaf.calculateAge()
         leavesTwo.push(leaf)
