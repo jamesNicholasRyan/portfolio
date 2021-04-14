@@ -1,6 +1,7 @@
 import React from 'react'
 import p5 from 'p5'
 
+
 class Tree extends React.Component {
   constructor(props) {
     super(props)
@@ -9,7 +10,7 @@ class Tree extends React.Component {
 
   Tree = (p) => {
     // Bubble[] bubbles = new Bubble[10]
-    const canvasHeight = 2000
+    const canvasHeight = 1200
     const leaveCount = (p.windowWidth/17)
     const dustCount = 50
     const birdCount = 10
@@ -28,10 +29,6 @@ class Tree extends React.Component {
     const textBoundary = [ p.windowWidth*0.36, canvasHeight*0.45, p.windowWidth*0.5, 320]
     let img
     let bg
-    let imageX
-    let imageY
-    let textX
-    let textY
 
     p.preload = () => {
       img = p.loadImage('https://media-exp1.licdn.com/dms/image/C4D03AQEhHTR0GDO0aQ/profile-displayphoto-shrink_800_800/0/1555516099921?e=1622678400&v=beta&t=q5f2tzzs9-oHZzUOuSv3r46XhbAgp1E_4jZ--oHb76s')
@@ -121,13 +118,13 @@ class Tree extends React.Component {
 
       if (leavesOne.length < leaveCount/2) {
         // console.log('makin more leaves!')
-        const leaf = new Leaf(p.random(1)*p.width, p.random(175, 250), 1, 0, 0, 1)
+        const leaf = new Leaf(p.random(1)*p.width, p.random(0, 50), 1, 0, 0, 1)
         leaf.calculateAge()
         leavesOne.push(leaf)
       }
       if (leavesTwo.length < leaveCount/2) {
         // console.log('makin more leaves!')
-        const leaf = new Leaf(p.random(1)*p.width, p.random(175, 250), 1, 0, 0, 1)
+        const leaf = new Leaf(p.random(1)*p.width, p.random(0, 50), 1, 0, 0, 1)
         leaf.calculateAge()
         leavesTwo.push(leaf)
       }

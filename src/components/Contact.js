@@ -15,7 +15,7 @@ export default function Contact() {
   let contactHeight
   function calculateSize() {
     const { innerHeight: height } = window
-    contactHeight = height + 4000
+    contactHeight = height + 3200
   }
   calculateSize()
 

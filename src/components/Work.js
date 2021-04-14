@@ -39,7 +39,7 @@ export default function Work() {
   let skillsHeight = 0
   function calculateSize() {
     const { innerHeight: height } = window
-    skillsHeight = String(height + 2800)
+    skillsHeight = String(height + 1900)
   }
   calculateSize()
 

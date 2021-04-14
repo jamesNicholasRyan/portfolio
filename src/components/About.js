@@ -7,9 +7,9 @@ export default function About() {
     const { innerWidth: width } = window
     const { innerHeight: height } = window
     if (width > 760) {
-      aboutHeight = String((height + 1200)*0.6)
+      aboutHeight = String((height + 800)*0.6)
     } else {
-      aboutHeight = String((height + 1000)*0.6)
+      aboutHeight = String((height + 400)*0.6)
     }
   }
   calculateSize()
@@ -41,6 +41,9 @@ export default function About() {
           <div className='column is-half'>
             <div className='darkText block is-size-4-desktop is-size-6-tablet has-text-left has-text-weight-semibold bottom'>
               In my spare time I enjoy making music, whether I'm singing in a choir or playing around with some midi instruments in Pro Tools. I also enjoy music from around the world, I haved played gamelan with the Gamelan Southbank Players in the past.
+            </div>
+            <div className='darkText block is-size-4-desktop is-size-6-tablet has-text-left has-text-weight-semibold bottom'>
+              I've mentioned I like music a lot already, so here is a little piece I wrote uploaded to YouTube. 
             </div>
           </div>
           <div className='column'>
