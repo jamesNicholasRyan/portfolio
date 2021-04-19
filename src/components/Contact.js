@@ -109,18 +109,20 @@ export default function Contact() {
       </form>
     </div>
 
-    <div className='column whiteText'>
+    <div className='column whiteText colmuns is-vcentered'>
       <div className='skillsTitle'>About this website</div>
-      <div className='has-text-centered is-size-3-desktop is-size-4-touch'>
-        <p>This website’s interactive background was created by me, using the JavaScript library <a className='readmeLink' href='https://p5js.org/' target="_blank" rel="noreferrer">p5.js</a>.</p>
-        <p>I utilised <a className='readmeLink' href='https://en.wikipedia.org/wiki/Boids' target="_blank" rel="noreferrer">Craig Reynolds</a> flocking behaviour rules to simulate fish, birds and bugs.</p>
-        <p>have a go at popping those bubbles!</p>
-      </div>
-      <div className='has-text-centered is-size-2-desktop is-size-4-touch myLinks'>
-        {/* <p>My Links:</p> */}
-        <p><img className='contactIcon' src={linkedIn} alt=''></img><a className='readmeLink' href='https://www.linkedin.com/in/james-n-ryan/' target="_blank" rel="noreferrer">LinkedIn</a></p>
-        <p><img className='contactIcon' src={gitHub} alt=''></img><a className='readmeLink' href='https://github.com/jamesNicholasRyan' target="_blank" rel="noreferrer">GitHub</a></p>
-        <p>j.n.ryan@hotmail.co.uk</p>
+      <div className='column is-four-fifths aboutColumn'>
+        <div className='has-text-centered is-size-4-desktop is-size-5-touch'>
+          <p>This website’s interactive background was created by me, using the JavaScript library <a className='readmeLink' href='https://p5js.org/' target="_blank" rel="noreferrer">p5.js</a>.</p>
+          <p>I utilised <a className='readmeLink' href='https://en.wikipedia.org/wiki/Boids' target="_blank" rel="noreferrer">Craig Reynolds</a> flocking behaviour rules to simulate fish, birds and bugs.</p>
+          <p>have a go at popping those bubbles!</p>
+        </div>
+        <div className='has-text-centered is-size-3-desktop is-size-4-touch myLinks'>
+          {/* <p>My Links:</p> */}
+          <p><img className='contactIcon' src={linkedIn} alt=''></img><a className='readmeLink' href='https://www.linkedin.com/in/james-n-ryan/' target="_blank" rel="noreferrer">LinkedIn</a></p>
+          <p><img className='contactIcon' src={gitHub} alt=''></img><a className='readmeLink' href='https://github.com/jamesNicholasRyan' target="_blank" rel="noreferrer">GitHub</a></p>
+          <p>j.n.ryan@hotmail.co.uk</p>
+        </div>
       </div>
     </div>
   </div>

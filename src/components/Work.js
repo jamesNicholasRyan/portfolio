@@ -14,14 +14,14 @@ export default function Work() {
       readme: 'https://github.com/jamesNicholasRyan/Battleships'
     },
     { title: 'Baggle', 
-      description: 'This was my last project during the bootcamp course. It was an opportunity to apply my new skills in SQL databases and a Python/Flask back-end. My team and I decided to create a cashless, bartering e-commerce website. We felt that the system of swapping items was an interesting concept to tackle in an SQL architecture. I focused my time on creating the relationships between the different backend models. I utilised the self referencial capabilities of an SQL server, which allowed us to offer items for other items, and for different users to follow each other.',
+      description: 'This was my last project during the bootcamp course. It was an opportunity to apply my new skills in SQL databases and a Python/Flask back-end. My team and I decided to create a cashless, bartering e-commerce website. We felt that the system of swapping items was an interesting concept to tackle in an SQL architecture. I focused my time on creating the relationships between the different backend models by utilising the self referencial capabilities of an SQL server.',
       tech: 'React, Node, Python, Flask, SQL, PostgreSQL,  Marshmallow, JavaScript, HTML5, CSS',
       image: 'https://i.imgur.com/wCCKshk.png',
       siteLink: 'https://baggles.herokuapp.com',
       readme: 'https://bit.ly/bagglesReadMe'
     },
     { title: 'F1 Circuit Mapper', 
-      description: 'This was a two day pair project, where we were tasked with picking an existing API and implementing it into our own website. My partner and I decided to go with an F1 motorsports API, as we felt the data provided had lots of potential for great visuals. We utilised the capabilities of a REST API (GET, PUT, POST, DELETE) to create a fully functioning website that visually displayed all historical F1 Grand Prixs and their circuits. The most challenging part of the project was implementing the MapGL component, which displayed all of the circuits. Once we had tackled that, the project was a very enjoyable experience.',
+      description: 'This was a two day pair project, where we were tasked with picking an existing API and implementing it into our own website. My partner and I decided to go with an F1 motorsports API, as we felt the data provided had lots of potential for great visuals. We utilised the capabilities of a REST API (GET, PUT, POST, DELETE) to create a fully functioning website that visually displayed all historical F1 Grand Prixs and their circuits.',
       tech: 'React, Node, REST APIs, JavaScript, HTML5, CSS',
       image: 'https://i.imgur.com/C6itr2m.png',
       siteLink: 'https://bit.ly/jnryanf1',
